@@ -1,4 +1,4 @@
-<header>
+<header style="position: sticky; top: 0; z-index: 1050; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
     <!---------------
     Navbar 
 -------------->
@@ -92,7 +92,7 @@
                     </li>
                     <div class="d-flex gap-3 align-items-center">
                         <div class="ad-header-cart-container">
-                            <a href="{{ route('cart') }}" class="text-decoration-none">
+                            <a href="{{ route('new.checkout') }}" class="text-decoration-none">
                                 <div class="ad-cart-img-container">
                                     <i class="fa-light fa-cart-shopping"></i>
                                     <span class="ad-cart-count">{{ App\Models\Cart::cartCount() }}</span>
@@ -178,7 +178,7 @@
                         </a>
                     </div>
                     <div class="position-relative">
-                        <a href="{{ route('cart') }}" class="text-decoration-none" style="color: inherit;">
+                        <a href="{{ route('new.checkout') }}" class="text-decoration-none" style="color: inherit;">
                             <i class="fa-light fa-cart-shopping"></i>
                             <span>{{ App\Models\Cart::cartCount() }}</span>
                             <p>View Cart</p>

@@ -286,7 +286,7 @@
                     <div class="ad-offer-single-card">
                         <div class="">
                             <a href="{{ route('productDetails', $product->slug) }}">
-                                <img src="{{ route('imagecache', ['template'=>'original','filename' => $product->fi() ?? 'default.png']) }}" alt="{{ $product->name_en }}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
+                                <img src="{{ route('imagecache', ['template' => 'pnism', 'filename' => $product->fi()]) }}" alt="{{ $product->name_en }}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
                             </a>
                         </div>
                         <div>

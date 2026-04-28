@@ -146,7 +146,7 @@
         </div>
         <div class="container ad-service-container">
             <div class="ad-single-service position-relative">
-                <i class="fa-light fa-seedling fa-3x mb-3" style="color: #c59d5f;"></i>
+                <i class="fa-light fa-seedling fa-3x mb-3" style="color: #A45517;"></i>
                 <h5>Direct Sourcing</h5>
                 <p>Sourcing high-quality beans directly from Bandarban hill farmers, ensuring traceability.</p>
                 <div class="ad-single-service-overlay">
@@ -158,7 +158,7 @@
                 </div>
             </div>
             <div class="ad-single-service position-relative">
-                <i class="fa-light fa-fire-smoke fa-3x mb-3" style="color: #c59d5f;"></i>
+                <i class="fa-light fa-fire-smoke fa-3x mb-3" style="color: #A45517;"></i>
                 <h5>B2B Supply</h5>
                 <p>Supply of premium roasted Arabica & Robusta beans to cafés and businesses.</p>
                 <div class="ad-single-service-overlay">
@@ -170,7 +170,7 @@
                 </div>
             </div>
             <div class="ad-single-service position-relative">
-                <i class="fa-light fa-flask-vial fa-3x mb-3" style="color: #c59d5f;"></i>
+                <i class="fa-light fa-flask-vial fa-3x mb-3" style="color: #A45517;"></i>
                 <h5>Custom Roast</h5>
                 <p>Developing custom roast profiles tailored to the specific needs of urban cafés.</p>
                 <div class="ad-single-service-overlay">

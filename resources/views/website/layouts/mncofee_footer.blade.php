@@ -16,7 +16,7 @@
                     <a href="{{ route('home') }}">
                         <img src="{{ route('imagecache', ['template' => 'original', 'filename' => $ws->logo()]) }}" alt="{{ $ws->name }}" style="max-height: 50px;">
                     </a>
-                    <p class="mt-2" style="color: #c59d5f; font-style: italic;">Local Beans, Global Taste.</p>
+                    <p class="mt-2" style="color: #A45517; font-style: italic;">Local Beans, Global Taste.</p>
                     <div class="d-flex gap-3 align-items-center">
                         <i class="fa-solid fa-location-dot"></i>
                         <p>

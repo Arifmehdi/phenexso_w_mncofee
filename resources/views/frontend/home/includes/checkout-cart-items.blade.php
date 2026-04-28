@@ -1,72 +1,58 @@
-<header class="py-2 px-3" style="background: #699403">
-    <h2 class="text-white h5 d-flex align-items-center gap-2 mb-0">
-        <i class="fa fa-shopping-cart"></i> Cart Items
-        <span class="badge bg-white text-success ms-2">{{ $cartItems->count() }}</span>
-    </h2>
-</header>
+<div class="checkout-card-header" style="background-color: #A45517; border-bottom: 1px solid rgba(0,0,0,0.05);">
+    <i class="fa fa-shopping-cart"></i> CART ITEMS
+    <span class="badge bg-white text-dark ms-2 cartCountBadge">{{ $cartItems->count() }}</span>
+</div>
 
-<div class="p-3 overflow-auto cart-action-wrapper">
+<div class="p-0 overflow-auto cart-action-wrapper-main">
     @if($cartItems->isEmpty())
-        <p class="text-center text-muted py-5 fs-5">Your cart is empty 🛒</p>
+        <div class="p-5 text-center text-muted fs-5 empty-cart-msg">Your cart is empty 🛒</div>
     @else
         <div class="table-responsive">
-            <table class="table table-bordered align-middle text-sm mb-0">
-                <thead class="table-success text-success fw-semibold">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
                     <tr>
-                        <th class="text-center w-5"></th>
-                        <th class="w-15">Thumbnail</th>
-                        <th>Product</th>
-                        <th class="w-25">Price</th>
-                        <th class="w-25">Quantity</th>
-                        <th class="text-end w-25">Subtotal</th>
+                        <th class="ps-4 py-3 border-0 small fw-bold text-uppercase">Product</th>
+                        <th class="py-3 border-0 small fw-bold text-uppercase text-center">Price</th>
+                        <th class="py-3 border-0 small fw-bold text-uppercase text-center">Qty</th>
+                        <th class="py-3 border-0 small fw-bold text-uppercase text-end pe-4">Total</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="cartTableBody">
                     @foreach ($cartItems as $cart)
-                        <tr class="cart-item" data-cart="{{ $cart->id }}">
-                            <td class="text-center align-middle">
-                                <button title="Remove Product"
-                                        class="btn btn-sm deleteCartItem"
-                                        data-url="{{ route('cartRemoveItem', $cart->id) }}"><i class="fas fa-trash-alt text-danger"></i></button>
-                            </td>
-                            <td class="align-middle">
-                                <a href="{{ route('productDetails', ['slug' => $cart->product->slug, 'id' => $cart->product_id]) }}">
+                        <tr class="cart-item-row" data-cart="{{ $cart->id }}">
+                            <td class="ps-4 py-3 border-bottom-0">
+                                <div class="d-flex align-items-center gap-3">
+                                    <button title="Remove" class="btn btn-sm p-0 ajaxDeleteCartItem" data-url="{{ route('cartRemoveItem', $cart->id) }}">
+                                        <i class="fas fa-times-circle text-danger"></i>
+                                    </button>
                                     <img src="{{ route('imagecache', ['template'=>'ppsm','filename' => $cart->product->fi()]) }}"
-                                         class="img-thumbnail" style="width:40px; height:40px; object-fit:cover;" loading="lazy">
-                                </a>
-                            </td>
-                            <td class="align-middle">
-                                <a href="{{ route('productDetails', ['slug' => $cart->product->slug, 'id' => $cart->product_id]) }}"
-                                   class="text-success text-decoration-none fw-medium">
-                                    {{ Str::limit($cart->product->name_en, 25, '...') }}
-                                </a>
-                            </td>
-                            <td class="align-middle text-success fw-semibold">
-                                @if($cart->product->discount > 0)
-                                    <div class="text-muted text-decoration-line-through small">
-                                        Tk. {{ number_format($cart->product->price, 2) }}
+                                         class="rounded" style="width:50px; height:50px; object-fit:cover;">
+                                    <div>
+                                        <a href="{{ route('productDetails', ['slug' => $cart->product->slug, 'id' => $cart->product_id]) }}"
+                                           class="text-dark text-decoration-none fw-semibold d-block small">
+                                            {{ Str::limit($cart->product->name_en, 30) }}
+                                        </a>
                                     </div>
-                                @endif
-                                Tk. {{ number_format($cart->product->selling_price, 2) }}
-                            </td>
-                            <td class="align-middle">
-                                <div class="d-flex align-items-center gap-2 cart-action-wrapper">
-                                    <button class="btn btn-sm btn-outline-secondary minus updateCartItem"
-                                            data-url="{{ route('cartUpdateQty') }}"
-                                            data-cart="{{ $cart->id }}"
-                                            data-qty="{{ $cart->quantity }}">−</button>
-                                    <span class="cartQtyDisplay border text-center rounded px-3 py-1 mx-2">
-                                        {{ $cart->quantity }}
-                                    </span>
-                                    <button class="btn btn-sm btn-outline-secondary plus updateCartItem"
-                                            data-url="{{ route('cartUpdateQty') }}"
-                                            data-cart="{{ $cart->id }}"
-                                            data-qty="{{ $cart->quantity }}">+</button>
                                 </div>
                             </td>
-                            <td class="text-end align-middle fw-semibold text-primary itemTotalPrice"
+                            <td class="text-center py-3 border-bottom-0 small fw-bold">
+                                ৳{{ number_format($cart->product->final_price, 2) }}
+                            </td>
+                            <td class="text-center py-3 border-bottom-0">
+                                <div class="d-flex align-items-center justify-content-center gap-1">
+                                    <button class="btn btn-xs btn-outline-secondary rounded-circle qty-update-btn minus" 
+                                            style="width:24px; height:24px; line-height:1; padding:0;"
+                                            data-url="{{ route('cartUpdateQty') }}" data-cart="{{ $cart->id }}" data-type="minus">−</button>
+                                    <span class="cartQtyDisplay small fw-bold px-2">{{ $cart->quantity }}</span>
+                                    <button class="btn btn-xs btn-outline-secondary rounded-circle qty-update-btn plus" 
+                                            style="width:24px; height:24px; line-height:1; padding:0;"
+                                            data-url="{{ route('cartUpdateQty') }}" data-cart="{{ $cart->id }}" data-type="plus">+</button>
+                                </div>
+                            </td>
+                            <td class="text-end pe-4 py-3 border-bottom-0 fw-bold text-primary row-subtotal" 
+                                style="color: #A45517 !important;"
                                 data-unit-price="{{ $cart->product->final_price }}">
-                                Tk. {{ number_format($cart->quantity * $cart->product->final_price, 2) }}
+                                ৳{{ number_format($cart->quantity * $cart->product->final_price, 2) }}
                             </td>
                         </tr>
                     @endforeach
@@ -79,111 +65,38 @@
 @php
     $totalCartPrice = \App\Models\Cart::totalCartPrice();
     $totalDiscountAmount = \App\Models\Cart::totalDiscountAmount();
-    // Get shipping charge from provider (WebsiteParameter)
     $shippingCharge = isset($ws) && isset($ws->shipping_charge) ? $ws->shipping_charge : 0;
-    // Calculate initial total (subtotal - discount + shipping)
     $initialTotal = $totalCartPrice - $totalDiscountAmount + $shippingCharge;
 @endphp
 
-@if(!$cartItems->isEmpty())
-<div class="p-3 border-top  bg-opacity-10 rounded">
-    <div class="text-center  text-white rounded py-1 fw-semibold mb-3 small" style="background: #699403">
-        You are saving Tk. {{ number_format($totalDiscountAmount, 2) }} in this order.
-    </div>
-
-    <div class="d-flex justify-content-between fw-semibold text-success mb-1">
-        <span>Subtotal</span>
-        <span class="subtotal" data-value="{{ $totalCartPrice }}">Tk. {{ number_format($totalCartPrice, 2) }}</span>
-    </div>
-
-    <div class="d-flex justify-content-between fw-semibold text-danger mb-2">
-        <span>Discount applied</span>
-        <span class="discount" data-value="{{ $totalDiscountAmount }}">-Tk. {{ number_format($totalDiscountAmount, 2) }}</span>
-    </div>
-
-    <div class="d-flex justify-content-between fw-semibold text-success mb-1">
-        <span>Shipping</span>
-        <div>
-            <span class="shipping" id="shipping-price" data-value="{{ $shippingCharge }}">Tk. {{ number_format($shippingCharge, 2) }}</span>
+<div id="cartSummaryContainer" class="@if($cartItems->isEmpty()) d-none @endif">
+    <div class="p-4 border-top bg-light">
+        <div id="savingContainer" class="text-center text-white rounded-pill py-1 fw-bold mb-3 small @if($totalDiscountAmount <= 0) d-none @endif" style="background: #A45517">
+            SAVING ৳<span class="total-discount-text">{{ number_format($totalDiscountAmount, 2) }}</span> ON THIS ORDER
         </div>
-    </div>
 
-    <div class="d-flex justify-content-between fw-semibold text-danger mb-1" id="shipping-discount-container" style="display: none;">
-        <span>Shipping Discount</span>
-        <span id="shipping-discount">-Tk. 0.00</span>
-    </div>
-    
-    <div id="address-selection-form" style="display: none;">
-        <div class="col-md-6 mt-3">
-            <div class="mb-3">
-                <label for="district" class="form-label">District</label>
-                <select class="form-select" id="district">
-                    <option selected disabled>Select a district</option>
-                    @foreach($districts as $district)
-                        <option value="{{ $district->id }}">{{ $district->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="thana" class="form-label">Thana/Upazila</label>
-                <select class="form-select" id="thana">
-                    <option selected disabled>Select a thana</option>
-                </select>
-            </div>
+        <div class="d-flex justify-content-between mb-2">
+            <span class="text-muted small fw-bold text-uppercase">Subtotal</span>
+            <span class="subtotal-text fw-bold small">৳{{ number_format($totalCartPrice, 2) }}</span>
         </div>
-        <div class="col-12 mt-3">
-            <p id="selected-address" class="text-muted small">Please select thana to confirm delivery location.</p>
+
+        <div class="d-flex justify-content-between mb-2">
+            <span class="text-muted small fw-bold text-uppercase">Discount</span>
+            <span class="discount-text fw-bold small text-danger">-৳{{ number_format($totalDiscountAmount, 2) }}</span>
         </div>
-    </div>
 
-    <hr class="border-success">
+        <div class="d-flex justify-content-between mb-3">
+            <span class="text-muted small fw-bold text-uppercase">Shipping</span>
+            <span class="shipping-text fw-bold small">৳{{ number_format($shippingCharge, 2) }}</span>
+        </div>
 
-    <div class="d-flex justify-content-between fw-bold fs-5 text-success mt-2">
-        <span>Total Amount</span>
-        <span class="payable">
-            Tk. {{ number_format($initialTotal, 2) }}
-        </span>
+        <hr>
+
+        <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-bold text-uppercase">Total</span>
+            <span class="payable-text fw-bold fs-4" style="color: #A45517;">
+                ৳{{ number_format($initialTotal, 2) }}
+            </span>
+        </div>
     </div>
 </div>
-@endif
-
-@push('js')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const thanaSelect = document.getElementById('thana');
-        const selectedAddress = document.getElementById('selected-address');
-
-        // Initialize shipping charge from data attribute (set by PHP)
-        const shippingPriceElement = document.getElementById('shipping-price');
-        const subtotalElement = document.querySelector('.subtotal');
-        const discountElement = document.querySelector('.discount');
-        const payableElement = document.querySelector('.payable');
-
-        // Function to update totals correctly (shipping is now fixed from provider)
-        function updateTotals() {
-            const subtotal = parseFloat(subtotalElement.getAttribute('data-value'));
-            const discount = parseFloat(discountElement.getAttribute('data-value'));
-            const shippingCost = parseFloat(shippingPriceElement.getAttribute('data-value'));
-            const grandTotal = subtotal - discount + shippingCost;
-
-            payableElement.textContent = `Tk. ${grandTotal.toFixed(2)}`;
-        }
-
-        // Thana select event listener (only for address, not shipping cost)
-        if (thanaSelect) {
-            thanaSelect.addEventListener('change', function() {
-                const selectedOption = this.options[this.selectedIndex];
-
-                if (selectedOption && selectedOption.value) {
-                    selectedAddress.textContent = `Delivery location set to ${selectedOption.text}.`;
-                } else {
-                    selectedAddress.textContent = 'Please select a thana to confirm delivery location.';
-                }
-            });
-        }
-
-        // Initialize totals on page load
-        updateTotals();
-    });
-</script>
-@endpush

@@ -1,375 +1,311 @@
-@extends('website.layouts.master')
+@extends('website.layouts.mncofee')
 
-@section('title', 'Shop - Hubli')
+@section('title', (isset($category) ? $category->name_en : 'Shop') . ' - ' . ($ws->name ?? env('APP_NAME')))
 
-@section('meta')
-    <meta name="description" content="Contact North Bengal for inquiries, product details, or business queries. Get in touch via phone, email, or visit our office.">
-    <meta name="keywords" content="contact north bengal, contact us, north bengal inquiries, phone, email, office location">
-    <meta property="og:title" content="Contact Us - North Bengal">
-    <meta property="og:description" content="Reach North Bengal for product inquiries or business partnerships.">
-    <meta property="og:image" content="{{ asset('frontend/assets/img/northbengal/contact_banner.png') }}">
-    <meta property="og:type" content="website">
-@endsection
+@push('css')
+<style>
+    .ad-menu-banner {
+        background-image: url("{{ asset('mncofee/assets/img/aida-images/menu-banner.png') }}") !important;
+        background-size: cover;
+        background-position: center;
+        height: 300px;
+    }
+    .card-hover {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    .sidebar {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.05);
+    }
+    .nav-list .nav-link {
+        color: #333;
+        padding: 8px 0;
+        border-bottom: 1px solid #f1f1f1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .nav-list .nav-link:hover, .nav-list .nav-link.active {
+        color: #A45517;
+    }
+    .btn-primary-custom {
+        background-color: #A45517;
+        border-color: #A45517;
+        color: #fff;
+    }
+    .btn-primary-custom:hover {
+        background-color: #a8854d;
+        border-color: #a8854d;
+        color: #fff;
+    }
+    .parent-category[aria-expanded="true"] i {
+        transform: rotate(180deg);
+    }
+</style>
+@endpush
+
 @section('content')
-
-    <!-- BREADCRUMB AREA START -->
-    <x-breadcrumb title="Shop" pageName="Shop" bgImage="frontend/img/bg/9.jpg" />
-    <!-- BREADCRUMB AREA END -->
-    
-    <!-- PRODUCT DETAILS AREA START -->
-    <div class="ltn__product-area ltn__product-gutter">
-        <div class="container-fluid px-5">
-            <div class="row">
-                <div class="col-lg-9 order-lg-2 mb-120">
-                    <div class="ltn__shop-options">
-                        <ul>
-                            <li>
-                                <div class="ltn__grid-list-tab-menu ">
-                                    <div class="nav">
-                                        <a class="active show" data-bs-toggle="tab" href="#liton_product_grid"><i class="fas fa-th-large"></i></a>
-                                        <a data-bs-toggle="tab" href="#liton_product_list"><i class="fas fa-list"></i></a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="d-none d-mg-block d-lg-block">
-                                <div class="header-search-2">
-                                    <form method="GET" action="{{ route('shop') }}">
-                                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search here..."/>
-
-                                        <button type="submit">
-                                            <span><i class="icon-search"></i></span>
-                                        </button>
-                                    </form>
-                                </div>
-                            </li>
-                            <li>
-                               <div class="short-by text-center">
-                                    <form method="GET" class="d-flex align-items-center gap-2">
-                                        <select class="nice-select" name="sort" id="sort" class="form-select w-auto" onchange="this.form.submit()">
-                                            <option >Default sorting</option>
-                                            <option value="1" @if(request()->get('sort')==1) selected @endif>Sort by Latest</option>
-                                            <option value="2" @if(request()->get('sort')==2) selected @endif>Sort by Oldest</option>
-                                            <option value="3" @if(request()->get('sort')==3) selected @endif>Sort by Price: High → Low</option>
-                                            <option value="4" @if(request()->get('sort')==4) selected @endif>Sort by Price: Low → High</option>
-                                            <!-- <option value="1">Sort by price: high to low</option> -->
-                                        </select>
-                                    </form>
-                                </div> 
-                            </li>
-                            <li>
-                               <div class="showing-product-number text-right text-end">
-                                    <span>Showing {{ $products->firstItem() }} - {{ $products->lastItem() }} of {{ $products->total() }} results</span>
-                                </div> 
-                            </li>                
-                        </ul>
-                    </div>
-                    <div class="tab-content">
-                        <div class="tab-pane fade active show" id="liton_product_grid">
-                            <div class="ltn__product-tab-content-inner ltn__product-grid-view">
-                                <div class="row">
-
-
-                                    @forelse ($products as $product)
-                                    <!-- ltn__product-item -->
-                                    <div class="col-xl-3 col-sm-6 col-6">
-                                        <div class="ltn__product-item ltn__product-item-3 text-center">
-                                            <div class="product-img">
-                                                <a href="{{ route('productDetails', $product->slug) }}">
-                                                    <img src="{{ route('imagecache', ['template' => 'pnism', 'filename' => $product->fi()]) }}" alt="{{ $product->name_en }}">
-                                                </a>
-                                                <!-- <div class="product-badge">
-                                                    <ul>
-                                                        <li class="sale-badge">New</li>
-                                                    </ul>
-                                                </div> -->
-                                                <div class="product-hover-action">
-                                                    <ul>
-                                                        <li>
-                                                            <a href="#" title="Quick View"  class="quick-view-btn" data-id="{{ $product->id }}" data-bs-toggle="modal" data-bs-target="#quick_view_modal">
-                                                                <i class="far fa-eye"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#" title="Add to Cart" data-bs-toggle="modal" data-bs-target="#add_to_cart_modal">
-                                                                <i class="fas fa-shopping-cart"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#" title="Wishlist" class="add-to-wishlist" data-id="{{ $product->id }}" data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal">
-                                                                <i class="far fa-heart"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="product-info">
-                                                <div class="product-ratting">
-                                                    <ul>
-                                                        <li><a href="#"><i class="fas fa-star"></i></a></li>
-                                                        <li><a href="#"><i class="fas fa-star"></i></a></li>
-                                                        <li><a href="#"><i class="fas fa-star"></i></a></li>
-                                                        <li><a href="#"><i class="fas fa-star-half-alt"></i></a></li>
-                                                        <li><a href="#"><i class="far fa-star"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <h2 class="product-title"><a href="{{ route('productDetails', $product->slug) }}">{{ $product->name_en }}</a></h2>
-                                                <small class="d-block text-uppercase mb-1">
-                                                    @foreach ($product->categories as $key => $cat)
-                                                        <span class="font-weight-bold" style="color: #0e1573ff">
-                                                            {{ $cat->name_en }}
-                                                        </span>@if(!$loop->last), @endif
-                                                    @endforeach
-                                                </small>
-                                                <div class="product-price">
-                                                    <span>{{ number_format($product->final_price, 2) }} ৳</span> 
-                                                    @if($product->discount > 0.00)
-                                                        <small style="font-size: 8px !important;"><del>{{ number_format($product->price, 2) }} ৳</del></small>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @empty 
-                                    <p>There have no product here</p>
-                                    @endforelse 
-                                    <!--  -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="liton_product_list">
-                            <div class="ltn__product-tab-content-inner ltn__product-list-view">
-                                <div class="row">
-
-                                    @forelse ($products as $product)
-                                    <!-- ltn__product-item -->
-                                    <div class="col-lg-12">
-                                        <div class="ltn__product-item ltn__product-item-3">
-                                            <div class="product-img">
-                                                <a href="{{ route('productDetails', $product->slug) }}">
-                                                    <img src="{{ route('imagecache', ['template' => 'pnism', 'filename' => $product->fi()]) }}" alt="{{ $product->name_en }}">
-                                                </a>
-                                                <!-- <div class="product-badge">
-                                                    <ul>
-                                                        <li class="sale-badge">New</li>
-                                                    </ul>
-                                                </div> -->
-                                            </div>
-                                            <div class="product-info">
-                                                <h2 class="product-title"><a href="{{ route('productDetails', $product->slug) }}">{{ $product->name_en }}</a></h2>
-                                                    @foreach ($product->categories as $key => $cat)
-                                                        <span class="font-weight-bold" style="color: #0e1573ff">
-                                                            {{ $cat->name_en }}
-                                                        </span>@if(!$loop->last), @endif
-                                                    @endforeach
-                                                <div class="product-ratting">
-                                                    <ul>
-                                                        <li><a href="#"><i class="fas fa-star"></i></a></li>
-                                                        <li><a href="#"><i class="fas fa-star"></i></a></li>
-                                                        <li><a href="#"><i class="fas fa-star"></i></a></li>
-                                                        <li><a href="#"><i class="fas fa-star-half-alt"></i></a></li>
-                                                        <li><a href="#"><i class="far fa-star"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="product-price">
-                                                    <span>{{ number_format($product->final_price, 2) }} ৳</span> 
-                                                    @if($product->discount > 0.00)
-                                                        <small style="font-size: 8px !important;"><del>{{ number_format($product->price, 2) }} ৳</del></small>
-                                                    @endif
-                                                </div>
-                                                <div class="product-brief">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae asperiores sit odit nesciunt,  aliquid, deleniti non et ut dolorem!</p>
-                                                </div>
-                                                <div class="product-hover-action">
-                                                    <ul>
-                                                        <li>
-                                                            <a href="#" title="Quick View" class="quick-view-btn" data-id="{{ $product->id }}" data-bs-toggle="modal" data-bs-target="#quick_view_modal">
-                                                                <i class="far fa-eye"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#" title="Add to Cart" data-bs-toggle="modal" data-bs-target="#add_to_cart_modal">
-                                                                <i class="fas fa-shopping-cart"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#" title="Wishlist" class="add-to-wishlist" data-id="{{ $product->id }}" data-bs-toggle="modal" data-bs-target="#liton_wishlist_modal">
-                                                                <i class="far fa-heart"></i>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @empty 
-                                    <p>There have no product here</p>
-                                    @endforelse 
-                                    <!--  -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ltn__pagination-area text-center">
-                        <div class="ltn__pagination">
-                            <ul>
-                                {{ $products->links('pagination.ltn') }}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3  mb-120">
-                    <aside class="sidebar ltn__shop-sidebar">
-                        <!-- Category Widget -->
-                        <div class="widget ltn__menu-widget">
-                            <h4 class="ltn__widget-title ltn__widget-title-border">Product categories</h4>
-                            <ul>
-                                <li><a href="{{ route('shop') }}">All ({{ $total_products }}) <span><i class="fas fa-long-arrow-alt-right"></i></span></a></li>
-                                @foreach ($subcategories as $subcategory)
-                                    <li>
-                                        <a href="{{ route('productCategory', $subcategory->slug) }}">{{ $subcategory->name_en }} ({{ $subcategory->products()->count() }}) 
-                                            <span><i class="fas fa-long-arrow-alt-right"></i></span>
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        
-                        <!-- Price Filter Widget -->
-                        <form method="GET" action="{{ url()->current() }}">
-                            <div class="widget ltn__price-filter-widget">
-                                <h4 class="ltn__widget-title ltn__widget-title-border">Filter by price</h4>
-                                <div class="price_filter">
-                                    <div class="price_slider_amount">
-                                        <input type="submit"  value="Your range:"/> 
-                                        <input type="text" class="amount" name="price"  placeholder="Add Your Price" /> 
-                                    </div>
-                                    <div class="slider-range"></div>
-                                </div>
-                            </div>
-                        </form>
-                        <!-- Top Rated Product Widget -->
-                        <div class="widget ltn__top-rated-product-widget">
-                            <h4 class="ltn__widget-title ltn__widget-title-border">Top Rated Product</h4>
-                            @include('website.layouts.top_products', [ 'topClickedProducts' => $topClickedProducts ])
-                        </div>
-                        <!-- Tagcloud Widget -->
-                        {{--<div class="widget ltn__tagcloud-widget">
-                            <h4 class="ltn__widget-title ltn__widget-title-border">Popular Tags</h4>
-                            <ul>
-                                <li><a href="#">Popular</a></li>
-                                <li><a href="#">desgin</a></li>
-                                <li><a href="#">ux</a></li>
-                                <li><a href="#">usability</a></li>
-                                <li><a href="#">develop</a></li>
-                                <li><a href="#">icon</a></li>
-                                <li><a href="#">Car</a></li>
-                                <li><a href="#">Service</a></li>
-                                <li><a href="#">Repairs</a></li>
-                                <li><a href="#">Auto Parts</a></li>
-                                <li><a href="#">Oil</a></li>
-                                <li><a href="#">Dealer</a></li>
-                                <li><a href="#">Oil Change</a></li>
-                                <li><a href="#">Body Color</a></li>
-                            </ul>
-                        </div>--}}
-                        <!-- Size Widget -->
-                        {{--<div class="widget ltn__tagcloud-widget ltn__size-widget">
-                            <h4 class="ltn__widget-title ltn__widget-title-border">Product Size</h4>
-                            <ul>
-                                <li><a href="#">S</a></li>
-                                <li><a href="#">M</a></li>
-                                <li><a href="#">L</a></li>
-                                <li><a href="#">XL</a></li>
-                                <li><a href="#">XXL</a></li>
-                            </ul>
-                        </div>--}}
-                        <!-- Color Widget -->
-                        {{--<div class="widget ltn__color-widget">
-                            <h4 class="ltn__widget-title ltn__widget-title-border">Product Color</h4>
-                            <ul>
-                                <li class="black"><a href="#"></a></li>
-                                <li class="white"><a href="#"></a></li>
-                                <li class="red"><a href="#"></a></li>
-                                <li class="silver"><a href="#"></a></li>
-                                <li class="gray"><a href="#"></a></li>
-                                <li class="maroon"><a href="#"></a></li>
-                                <li class="yellow"><a href="#"></a></li>
-                                <li class="olive"><a href="#"></a></li>
-                                <li class="lime"><a href="#"></a></li>
-                                <li class="green"><a href="#"></a></li>
-                                <li class="aqua"><a href="#"></a></li>
-                                <li class="teal"><a href="#"></a></li>
-                                <li class="blue"><a href="#"></a></li>
-                                <li class="navy"><a href="#"></a></li>
-                                <li class="fuchsia"><a href="#"></a></li>
-                                <li class="purple"><a href="#"></a></li>
-                                <li class="pink"><a href="#"></a></li>
-                                <li class="nude"><a href="#"></a></li>
-                                <li class="orange"><a href="#"></a></li>
-
-                                <li><a href="#" class="orange"></a></li>
-                                <li><a href="#" class="orange"></a></li>
-                            </ul>
-                        </div>--}}
-                        <!-- Banner Widget -->
-                        <div class="widget ltn__banner-widget">
-                            <a href="shop.html"><img src="{{ asset('frontend/img/banner/banner-1.jpg')}}" alt="#"></a>
-                        </div>
-
-                    </aside>
-                </div>
+<!--------------- 
+    Banner 
+---------------->
+<section>
+    <div class="ad-menu-banner position-relative">
+        <div class="ad-menu-banner-overlay">
+            <div>
+                <a href="{{ route('home') }}">Home /</a>
+                <a class="selected-page" href="{{ route('shop') }}"> Shop</a>
+                @if(isset($category))
+                    <span class="text-white"> / {{ $category->name_en }}</span>
+                @endif
             </div>
         </div>
     </div>
-    <!-- PRODUCT DETAILS AREA END -->
-@endsection 
-@push('js')
-<script>
-$(document).on('click', '.add-to-wishlist', function() {
-    var id = $(this).data('id');
+</section>
 
-    $.ajax({
-        url: "{{ route('wishlist.add') }}",
-        type: "POST",
-        data: {
-            product_id: id,
-            _token: "{{ csrf_token() }}"
-        },
-        success: function(res) {
-            $("#liton_wishlist_modal .added-cart").text(res.message);
-            $("#liton_wishlist_modal").modal('show');
+<section class="section my-0 py-5">
+    <div class="container">
+        <div class="row g-4">
+            
+            <!-- Sidebar -->
+            <div class="col-lg-3 order-2 order-lg-1 d-none d-lg-block">
+                <aside class="sidebar">
+                    <h5 class="mb-4">Product Categories</h5>
+
+                    <ul class="nav nav-list flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link {{ !request()->segment(2) ? 'active' : '' }}" href="{{ route('shop') }}">
+                                <span>All Products</span>
+                            </a>
+                        </li>
+
+                        @foreach ($allRootCategories as $rootCat)
+                            @php
+                                $isActiveParent = request()->segment(2) === $rootCat->slug ||
+                                                  ($rootCat->children->isNotEmpty() && $rootCat->children->pluck('slug')->contains(request()->segment(2)));
+                            @endphp
+                            <li class="nav-item">
+                                <a class="nav-link parent-category {{ $isActiveParent ? 'active' : '' }}"
+                                   href="{{ count($rootCat->children) > 0 ? '#category-' . $rootCat->id : route('productCategory', $rootCat->slug) }}"
+                                   @if(count($rootCat->children) > 0) data-bs-toggle="collapse" data-bs-target="#category-{{ $rootCat->id }}" aria-expanded="{{ $isActiveParent ? 'true' : 'false' }}" @endif>
+                                    <span>{{ $rootCat->name_en }} </span>
+                                    @if(count($rootCat->children) > 0)
+                                        <i class="fas fa-chevron-down small transition"></i>
+                                    @endif
+                                </a>
+                                @if(count($rootCat->children) > 0)
+                                    <ul id="category-{{ $rootCat->id }}" class="nav flex-column ms-3 collapse {{ $isActiveParent ? 'show' : '' }}">
+                                        @foreach($rootCat->children as $child)
+                                            <li class="nav-item">
+                                                <a class="nav-link {{ request()->segment(2) === $child->slug ? 'active' : '' }}" href="{{ route('productCategory', $child->slug) }}">{{ $child->name_en }}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+
+                    <div class="mt-5">
+                        <h5 class="mb-3">Filter by Price</h5>
+                        <form action="{{ url()->current() }}" method="GET">
+                            <div class="d-flex flex-column gap-2">
+                                <input type="number" name="min_price" class="form-control form-control-sm" placeholder="Min Price" value="{{ request('min_price') }}">
+                                <input type="number" name="max_price" class="form-control form-control-sm" placeholder="Max Price" value="{{ request('max_price') }}">
+                                <button type="submit" class="btn btn-sm btn-primary-custom mt-2">Apply</button>
+                            </div>
+                        </form>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-12 col-lg-9 order-1 order-lg-2">
+                
+                <!-- Subcategories horizontally on mobile -->
+                @if(count($subcategories) > 0)
+                <div class="d-lg-none mb-4">
+                    <div class="d-flex overflow-auto pb-2 gap-2">
+                        @foreach ($subcategories as $subcat)
+                            <a href="{{ route('productCategory', $subcat->slug) }}" 
+                               class="btn btn-sm btn-outline-primary rounded-pill text-nowrap {{ request()->segment(2) == $subcat->slug ? 'active' : '' }}">
+                                {{ $subcat->name_en }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+
+
+                <!-- Top filter section -->
+                <div class="row mb-4 align-items-center bg-light p-3 rounded mx-0 border">
+                    <div class="col-md-6">
+                        <form method="GET" class="d-flex align-items-center gap-2">
+                            <select name="sort" id="sort" class="form-select form-select-sm w-auto" onchange="this.form.submit()">
+                                <option value="1" @if(request()->get('sort')==1) selected @endif>Latest</option>
+                                <option value="2" @if(request()->get('sort')==2) selected @endif>Oldest</option>
+                                <option value="3" @if(request()->get('sort')==3) selected @endif>Price: High to Low</option>
+                                <option value="4" @if(request()->get('sort')==4) selected @endif>Price: Low to High</option>
+                            </select>
+                            <input type="hidden" name="min_price" value="{{ request()->get('min_price') }}">
+                            <input type="hidden" name="max_price" value="{{ request()->get('max_price') }}">
+                        </form>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <span class="text-muted small">
+                            Showing {{ $products->firstItem() }} - {{ $products->lastItem() }} of {{ $products->total() }} results
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="row g-3">
+                    @forelse ($products as $product)
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="card h-100 border-0 shadow-sm card-hover">
+                                <div class="position-relative overflow-hidden text-center p-2">
+                                    <a href="{{ route('productDetails', $product->slug) }}">
+                                        <img src="{{ route('imagecache', ['template' => 'pnism', 'filename' => $product->fi()]) }}" 
+                                             class="card-img-top rounded-circle" 
+                                             alt="{{ $product->name_en }}"
+                                             style="width: 120px; height: 120px; object-fit: cover; margin: 0 auto;">
+                                    </a>
+                                </div>
+                                <div class="card-body p-3 d-flex flex-column text-center">
+                                    <small class="text-uppercase text-muted mb-1" style="font-size: 10px;">
+                                        @foreach ($product->categories as $cat)
+                                            {{ $cat->name_en }}@if(!$loop->last), @endif
+                                        @endforeach
+                                    </small>
+                                    <h6 class="card-title text-truncate mb-1" style="font-size: 14px;">
+                                        <a href="{{ route('productDetails', $product->slug) }}" class="text-dark text-decoration-none">
+                                            {{ strtoupper($product->name_en) }}
+                                        </a>
+                                    </h6>
+                                    <div class="mb-2">
+                                        @if($product->discount > 0)
+                                            <span class="text-muted text-decoration-line-through small me-1" style="font-size: 11px;">
+                                                ৳{{ number_format($product->price, 2) }}
+                                            </span>
+                                        @endif
+                                        <span class="fw-bold text-primary" style="font-size: 14px; color: #A45517 !important;">
+                                            ৳{{ number_format($product->final_price, 2) }}
+                                        </span>
+                                    </div>
+                                    <div class="mt-auto productCartItem" data-product="{{ $product->id }}">
+                                        @include('frontend.home.includes.productCartItem')
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-12 text-center py-5">
+                            <p class="text-muted">No products found in this category.</p>
+                        </div>
+                    @endforelse
+                </div>
+
+                <!-- Pagination -->
+                <div class="mt-5 d-flex justify-content-center">
+                    {{ $products->links() }}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+@endsection
+
+@push('js')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-});
-</script>
-<script>
-    $(document).ready(function() {
-        var priceRange = '{{ request()->get("price") }}';
-        var minPrice = 0;
-        var maxPrice = 5000;
 
-        if (priceRange) {
-            var priceParts = priceRange.split('-');
-            if (priceParts.length === 2) {
-                minPrice = parseInt(priceParts[0]);
-                maxPrice = parseInt(priceParts[1]);
+    // Add to Cart
+    $(document).on("click", ".addToCart", function () {
+        let btn = $(this);
+        let url = btn.data("url");
+        let product_id = btn.data("product");
+        let qty = parseInt(btn.closest(".productCartItem").find(".product_qty").val()) || 1;
+
+        $.post(url, { product: product_id, qty: qty }, function (res) {
+            if (res.status) {
+                btn.closest(".productCartItem").html(res.productCartItem);
+                $(".cartCount").text(res.cartCount);
+                $(".cartItemsCount").text(res.cartItemsCount);
+                $(".cartTotalPrice").text(res.cartTotal.toFixed(2) + " tk");
+
+                Swal.fire({
+                    toast: true, icon: "success", title: res.message,
+                    position: "top-end", timer: 2000, showConfirmButton: false
+                });
             }
+        }).fail(() => {
+            Swal.fire("Error", "Could not add to cart.", "error");
+        });
+    });
+
+    // Update Cart Item
+    $(document).on('click', '.updateCartItem', function (e) {
+        e.preventDefault();
+
+        let $btn = $(this);
+        let cartId = $btn.data('cart');
+        let url = $btn.data('url');
+        let $wrapper = $btn.closest('.cart-action-wrapper');
+        let qty = parseInt($wrapper.find('.cartQtyDisplay').text()) || 0;
+
+        if ($btn.hasClass('plus')) {
+            qty++;
+        } else if ($btn.hasClass('minus')) {
+            qty--;
+            if (qty < 0) qty = 0;
         }
 
-        $('.slider-range').slider({
-            range: true,
-            min: 0,
-            max: 5000,
-            values: [minPrice, maxPrice],
-            slide: function(event, ui) {
-                $('.amount').val('৳' + ui.values[0] + ' - ৳' + ui.values[1]);
+        $btn.prop('disabled', true);
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: {
+                cart: cartId,
+                new_qty: qty
             },
-            stop: function(event, ui) {
-                $('input[name="price"]').val(ui.values[0] + '-' + ui.values[1]);
-                $(this).closest('form').submit();
+            success: function (res) {
+                if (res.status) {
+                    if (qty === 0) {
+                        $wrapper.html(`
+                            <input type="hidden" name="product_qty" value="1" class="product_qty">
+                            <button class="btn btn-outline-primary w-100 btn-sm addToCart"
+                                data-url="${res.add_to_cart_url}"
+                                data-product="${res.product_id}">
+                                Buy Now
+                            </button>
+                        `);
+                    } else {
+                        $wrapper.find('.cartQtyDisplay').text(qty);
+                    }
+
+                    $('.cartCount').text(res.cartCount);
+                    $('.cartItemsCount').text(res.cartItemsCount);
+                }
+            },
+            error: function () {
+                alert('Something went wrong! Please try again.');
+            },
+            complete: function () {
+                $btn.prop('disabled', false);
             }
         });
-        $('.amount').val('৳' + $('.slider-range').slider('values', 0) + ' - ৳' + $('.slider-range').slider('values', 1));
     });
 </script>
 @endpush

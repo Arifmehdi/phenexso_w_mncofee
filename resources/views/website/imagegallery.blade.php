@@ -39,7 +39,7 @@
             <div class="container">
                 <div class="row">
                     <div class="section-head text-center" data-aos="fade-up" data-aos-duration="1000">
-                        <span class="sm-title" style="color: #c59d5f; font-weight: 600; text-transform: uppercase;">Our Gallery</span>
+                        <span class="sm-title" style="color: #A45517; font-weight: 600; text-transform: uppercase;">Our Gallery</span>
                         <h2 class="sec-title" style="font-family: 'Oswald', sans-serif; font-size: 40px; margin-top: 10px;">
                             Our Coffee Journey
                         </h2>

@@ -58,7 +58,7 @@ class FrontendController extends Controller
                 // Get all active categories with their products
     $data['categories'] = ProductCategory::where('active', true)
         ->with(['products' => function($query) {
-            $query->where('active', true)
+            $query->where('active', 1)
                   ->select('products.id', 'products.name_en',  'products.slug', 'products.featured_image', 'products.price', 'products.discount_price') // Select only needed fields
                   ->take(8); // Limit products per category
         }])
@@ -171,6 +171,15 @@ class FrontendController extends Controller
 
         $products = $query->paginate(12)->appends($request->all());
 
+        $productCategories = ProductCategory::whereNull('parent_id')
+            ->with('children')
+            ->where('active', 1)
+            ->orderBy('name_en')
+            ->get();
+        
+        $banner = FrontSlider::whereActive(true)->first();
+        $offers = collect(); // You can populate this if you have an offers table
+
         $categories = ProductCategory::whereActive(true)->latest()->get();
         $total_products = Product::whereActive(true)->count();
         $subcategories = ProductCategory::whereNull('parent_id')
@@ -197,7 +206,10 @@ class FrontendController extends Controller
             'total_products', 
             'subcategories',
             'allRootCategories',
-            'topClickedProducts' // Add this
+            'topClickedProducts',
+            'productCategories',
+            'banner',
+            'offers'
         ));
 
     }

@@ -16,13 +16,13 @@
     }
     .mission-vision-card {
         background: #fdfaf7;
-        border-left: 5px solid #c59d5f;
+        border-left: 5px solid #A45517;
         padding: 30px;
         margin-bottom: 30px;
         border-radius: 0 10px 10px 0;
     }
     .mission-vision-card h4 {
-        color: #c59d5f;
+        color: #A45517;
         font-family: 'Oswald', sans-serif;
         margin-bottom: 15px;
     }
@@ -82,27 +82,27 @@
 <section class="py-5" style="background: #f9f4ef;">
     <div class="container">
         <div class="text-center mb-5" data-aos="fade-up">
-            <h5 style="color: #c59d5f;">Our Focus</h5>
+            <h5 style="color: #A45517;">Our Focus</h5>
             <h2 style="font-family: 'Oswald', sans-serif;">Key Objectives</h2>
         </div>
         <div class="row">
             <div class="col-md-4 mb-4" data-aos="fade-up">
                 <div class="text-center p-4 bg-white shadow-sm rounded">
-                    <i class="fa-light fa-users-viewfinder fa-3x mb-3" style="color: #c59d5f;"></i>
+                    <i class="fa-light fa-users-viewfinder fa-3x mb-3" style="color: #A45517;"></i>
                     <h5>Farmer Income</h5>
                     <p>Connecting hill farmers directly to markets to ensure fair and improved income.</p>
                 </div>
             </div>
             <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="text-center p-4 bg-white shadow-sm rounded">
-                    <i class="fa-light fa-microscope fa-3x mb-3" style="color: #c59d5f;"></i>
+                    <i class="fa-light fa-microscope fa-3x mb-3" style="color: #A45517;"></i>
                     <h5>Traceability</h5>
                     <p>Maintaining full traceability from the specific hill farm to your urban café cup.</p>
                 </div>
             </div>
             <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
                 <div class="text-center p-4 bg-white shadow-sm rounded">
-                    <i class="fa-light fa-chart-line-up fa-3x mb-3" style="color: #c59d5f;"></i>
+                    <i class="fa-light fa-chart-line-up fa-3x mb-3" style="color: #A45517;"></i>
                     <h5>Arabica Growth</h5>
                     <p>Developing and expanding local Arabica production in the Chittagong Hill Tracts.</p>
                 </div>
