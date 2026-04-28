@@ -150,10 +150,10 @@
                     </div>
 
                     <div class="mb-4">
-                        <span class="product-price">৳{{ number_format($product->final_price, 2) }}</span>
-                        @if($product->discount > 0)
+                        <span class="product-price">৳{{ number_format($product->selling_price, 2) }}</span>
+                        {{--@if($product->discount > 0)
                             <span class="old-price">৳{{ number_format($product->price, 2) }}</span>
-                        @endif
+                        @endif--}}
                     </div>
 
                     <p class="text-muted mb-4">
@@ -275,7 +275,7 @@
                             </h6>
                             <div class="mb-2">
                                 <span class="fw-bold" style="font-size: 14px; color: #A45517 !important;">
-                                    ৳{{ number_format($related->final_price, 2) }}
+                                    ৳{{ number_format($related->selling_price, 2) }}
                                 </span>
                             </div>
                             <div class="mt-auto productCartItem" data-product="{{ $related->id }}">

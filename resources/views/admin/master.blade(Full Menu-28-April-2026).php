@@ -536,6 +536,101 @@
                         </ul>
                     </li>
 
+                                            
+                        {{-- Vehicles --}}
+                    <li class="nav-item {{ session('lsbm') == 'vehicles'? ' menu-open ' : ''}}">
+                        <a href="#" class="nav-link {{ session('lsbm') == 'vehicles'? ' active ' : ''}}">
+                            <i class="nav-icon fas fa-truck"></i> {{-- Using a truck icon for vehicles --}}
+                            <p>
+                                Vehicles
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.vehicles.index') }}" class="nav-link {{ session('lsbsm') == 'allVehicles' ? ' active ' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>All Vehicles</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.vehicles.create') }}" class="nav-link {{ session('lsbsm') == 'createVehicle' ? ' active ' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Add Vehicle</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    {{-- Drivers --}}
+                    <li class="nav-item {{ session('lsbm') == 'drivers'? ' menu-open ' : ''}}">
+                        <a href="#" class="nav-link {{ session('lsbm') == 'drivers'? ' active ' : ''}}">
+                            <i class="nav-icon fas fa-user-friends"></i> {{-- Using a user-friends icon for drivers --}}
+                            <p>
+                                Drivers
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.drivers.index') }}" class="nav-link {{ session('lsbsm') == 'allDrivers' ? ' active ' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>All Drivers</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.drivers.create') }}" class="nav-link {{ session('lsbsm') == 'createDriver' ? ' active ' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Add Driver</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    {{-- Vehicle Assignments --}}
+                    <li class="nav-item {{ session('lsbm') == 'vehicle_assignments'? ' menu-open ' : ''}}">
+                        <a href="#" class="nav-link {{ session('lsbm') == 'vehicle_assignments'? ' active ' : ''}}">
+                            <i class="nav-icon fas fa-clipboard-list"></i>
+                            <p>
+                                Vehicle Assignments
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.vehicle_assignments.index') }}" class="nav-link {{ session('lsbsm') == 'allVehicleAssignments' ? ' active ' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>All Assignments</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.vehicle_assignments.create') }}" class="nav-link {{ session('lsbsm') == 'createVehicleAssignment' ? ' active ' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>New Assignment</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    {{-- Product Stock Requests --}}
+                    <li class="nav-item {{ session('lsbm') == 'stock_requests' ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ session('lsbm') == 'stock_requests' ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-boxes"></i>
+                            <p>
+                            Stock Requests
+                            <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                            <a href="{{ route('admin.stock_requests.index') }}" class="nav-link {{ session('lsbsm') == 'allStockRequests' ? 'active' : '' }}">
+                                <i class="far fa-dot-circle nav-icon"></i>
+                                <p>All Stock Requests</p>
+                            </a>
+                            </li>
+                        </ul>
+                    </li>
+
                     {{-- Orders --}}
                     <li class="nav-item {{ session('lsbm') == 'order' ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link {{ session('lsbm') == 'order' ? 'active' : '' }}">
@@ -572,7 +667,26 @@
                             </a>
                             </li>
                         </ul>
-                    </li>                 
+                    </li>
+
+                   <li class="nav-item {{ session('lsbm') == 'shipping' ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ session('lsbm') == 'shipping' ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-shopping-bag"></i>
+                            <p>
+                            Shipping Method
+                            <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                            <a href="{{ route('shipping.index') }}" class="nav-link {{ session('lsbsm') == 'shippingMethod' ? 'active' : '' }}">
+                                <i class="far fa-dot-circle nav-icon"></i>
+                                <p>Method List</p>
+                            </a>
+                            </li>
+                        </ul>
+                    </li>
+                   
                    
 
                     <li class="nav-item {{ session('lsbm') == 'websiteparam'? ' menu-open ' : ''}}">

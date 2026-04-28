@@ -65,7 +65,7 @@ class FrontendController extends Controller
         ->whereHas('products', function($query) { // Only categories that have products
             $query->where('active', true);
         })
-        ->select('id', 'name_en', 'name_bn', 'slug','image') // Select category fields
+        ->select('id', 'name_en', 'name_bn', 'slug','image', 'active') // Select category fields
         ->get();
 
         // dd($data['categories']);
@@ -1304,7 +1304,7 @@ public function quickAdd(Request $request)
             Cart::where('user_id', $user->id)->delete();
 
             // Send email to admin
-            Mail::to('noreply@hublibd.com')->send(new OrderConfirmationEmail($order));
+            // Mail::to('noreply@hublibd.com')->send(new OrderConfirmationEmail($order));
             
             // Send email to customer if email is provided
             if ($order->email) {

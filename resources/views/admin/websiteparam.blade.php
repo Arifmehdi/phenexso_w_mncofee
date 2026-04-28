@@ -155,7 +155,7 @@
                     <div class="col-sm-6">
                         <div class="card card-widget">
                             <div class="card-header with-border">
-                                <h3 class="card-title">Pharmacy E-Commerce Logo  
+                                <h3 class="card-title">Logo  
                                     <span class="text-danger">&nbsp;&nbsp;Better Size: (140x158px)</span>
                                 </h3>
                             </div>

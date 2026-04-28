@@ -36,7 +36,7 @@
                                 </div>
                             </td>
                             <td class="text-center py-3 border-bottom-0 small fw-bold">
-                                ৳{{ number_format($cart->product->final_price, 2) }}
+                                ৳{{ number_format($cart->product->selling_price, 2) }}
                             </td>
                             <td class="text-center py-3 border-bottom-0">
                                 <div class="d-flex align-items-center justify-content-center gap-1">
@@ -51,8 +51,8 @@
                             </td>
                             <td class="text-end pe-4 py-3 border-bottom-0 fw-bold text-primary row-subtotal" 
                                 style="color: #A45517 !important;"
-                                data-unit-price="{{ $cart->product->final_price }}">
-                                ৳{{ number_format($cart->quantity * $cart->product->final_price, 2) }}
+                                data-unit-price="{{ $cart->product->selling_price }}">
+                                ৳{{ number_format($cart->quantity * $cart->product->selling_price, 2) }}
                             </td>
                         </tr>
                     @endforeach

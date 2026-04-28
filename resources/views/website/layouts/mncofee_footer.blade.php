@@ -100,7 +100,7 @@
         <div class="ad-footer-bottom">
         <p>
             Copyright © {{ date('Y') }}
-            <a href="https://phenexsoft.com/">Phenexsoft IT</a>.
+            <a href="https://phenexsoft.com/" target="_blank">Phenexsoft IT</a>.
             All Rights Reserved.
         </p>
             <img src="{{ asset('mncofee/assets/img/aida-images/payment.png') }}" alt="payment">

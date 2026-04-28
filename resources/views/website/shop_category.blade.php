@@ -188,13 +188,13 @@
                                         </a>
                                     </h6>
                                     <div class="mb-2">
-                                        @if($product->discount > 0)
+                                        {{--@if($product->discount > 0)
                                             <span class="text-muted text-decoration-line-through small me-1" style="font-size: 11px;">
                                                 ৳{{ number_format($product->price, 2) }}
                                             </span>
-                                        @endif
+                                        @endif--}}
                                         <span class="fw-bold text-primary" style="font-size: 14px; color: #A45517 !important;">
-                                            ৳{{ number_format($product->final_price, 2) }}
+                                            ৳{{ number_format($product->selling_price, 2) }}
                                         </span>
                                     </div>
                                     <div class="mt-auto productCartItem" data-product="{{ $product->id }}">

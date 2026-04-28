@@ -142,7 +142,7 @@
                         <a href="{{ route('home') }}">Home</a>
                     </li>
                     <li>
-                        <a href="{{ route('about-us') }}">About Us</a>
+                        <a href="{{ route('about') }}">About Us</a>
                     </li>
                     <li>
                         <a href="{{ route('shop') }}">Products</a>
