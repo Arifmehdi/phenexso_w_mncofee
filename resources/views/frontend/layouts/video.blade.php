@@ -21,7 +21,7 @@
                 <div class="position-relative d-block video-wrapper main-video-wrapper">
                     <video class="w-100 rounded shadow-lg main-video"
                         muted loop playsinline preload="auto"
-                        poster="{{ asset('storage/galleries/' . $mainVideo->thumbnail_image) }}">
+                        poster="{{ route('imagecache', ['template' => 'large', 'filename' => $mainVideo->thumbnail_image]) }}">
                         <source src="{{ asset('storage/galleries/' . $mainVideo->featured_image) }}" type="video/mp4">
                         আপনার ব্রাউজার ভিডিওটি প্লে করতে সক্ষম নয়।
                     </video>
@@ -77,7 +77,7 @@
                             <video 
                                 class="card-img-top rounded-top small-video"
                                 muted loop playsinline preload="metadata"
-                                poster="{{ asset('storage/galleries/' . $video->thumbnail_image) }}"
+                                poster="{{ route('imagecache', ['template' => 'medium', 'filename' => $video->thumbnail_image]) }}"
                             >
                                 <source src="{{ asset('storage/galleries/' . $video->featured_image) }}" type="video/mp4">
                             </video>

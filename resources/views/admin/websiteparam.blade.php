@@ -113,6 +113,10 @@
                                     <label for="youtube_url" class="  control-label">Youtube Url</label>
                                     <input type="text" name="youtube_url" class="form-control" value="{{ old('youtube_url') ?: $websiteParameter->youtube_url ?? '' }}" id="youtube_url" placeholder="Youtube Url" autocomplete="off">
                                 </div>
+                                <div class="form-group ">
+                                    <label for="iframe_map" class="  control-label">Iframe Map</label>
+                                    <input type="text" name="iframe_map" class="form-control" value="{{ old('iframe_map') ?: $websiteParameter->iframe_map ?? '' }}" id="iframe_map" placeholder="Iframe Map" autocomplete="off">
+                                </div>
 
                             </div>
                         </div>
@@ -148,7 +152,7 @@
 
 
                     </div>
-                    {{--<div class="col-sm-6">
+                    <div class="col-sm-6">
                         <div class="card card-widget">
                             <div class="card-header with-border">
                                 <h3 class="card-title">Pharmacy E-Commerce Logo  
@@ -178,11 +182,11 @@
                             </div>
                         </div>
 
-                    </div>--}}
+                    </div>
                     <div class="col-sm-6">
                         <div class="card card-widget">
                             <div class="card-header with-border">
-                                <h3 class="card-title">Logo
+                                <h3 class="card-title">Logo Dark Version (For Footer)
                                      <span class="text-danger">&nbsp;&nbsp;Better Size: (140x132px)</span>
                                 </h3>
                             </div>

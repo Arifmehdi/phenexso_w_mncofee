@@ -16,23 +16,24 @@
                     <a href="{{ route('home') }}">
                         <img src="{{ route('imagecache', ['template' => 'original', 'filename' => $ws->logo()]) }}" alt="{{ $ws->name }}" style="max-height: 50px;">
                     </a>
+                    <p class="mt-2" style="color: #c59d5f; font-style: italic;">Local Beans, Global Taste.</p>
                     <div class="d-flex gap-3 align-items-center">
                         <i class="fa-solid fa-location-dot"></i>
                         <p>
-                            {{ $ws->address ?? '4920 Trails End Road Ft United States, FL 33311' }}
+                            {{ $ws->contact_address ?? '4920 Trails End Road Ft United States, FL 33311' }}
                         </p>
                     </div>
                     <div class="d-flex gap-3 align-items-center">
                         <i class="fa-solid fa-envelope-open-text"></i>
                         <p>
-                            {{ $ws->email ?? 'info@example.com' }}
+                            {{ $ws->contact_email ?? 'info@example.com' }}
                         </p>
                     </div>
                     <div class="d-flex gap-3 align-items-center">
                         <i class="fa-solid fa-phone-volume"></i>
                         <div>
-                            <a href="tel:{{ $ws->phone ?? '+123 456 679 123' }}">
-                                {{ $ws->phone ?? '+123 456 679 123' }}
+                            <a href="tel:{{ $ws->contact_phone ?? '+123 456 679 123' }}">
+                                {{ $ws->contact_mobile ?? '+123 456 679 123' }}
                             </a>
                         </div>
                     </div>
@@ -41,19 +42,19 @@
                     <h5>Our Services</h5>
                     <ul>
                         <li>
-                            <a href="{{ route('about-us') }}">Fast Delivery</a>
+                            <a href="{{ route('service') }}">B2B Coffee Supply</a>
                         </li>
                         <li>
-                            <a href="{{ route('about-us') }}">Vegan Cuisine</a>
+                            <a href="{{ route('service') }}">Direct Sourcing</a>
                         </li>
                         <li>
-                            <a href="{{ route('about-us') }}">Fresh Products</a>
+                            <a href="{{ route('service') }}">Custom Roast Profiles</a>
                         </li>
                         <li>
-                            <a href="{{ route('about-us') }}">Skilled Chefs</a>
+                            <a href="{{ route('service') }}">Traceable Beans</a>
                         </li>
                         <li>
-                            <a href="{{ route('about-us') }}">Great Coffee</a>
+                            <a href="{{ route('service') }}">Specialty Arabica</a>
                         </li>
                     </ul>
                 </div>

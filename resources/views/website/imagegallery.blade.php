@@ -3,8 +3,8 @@
 @section('title', 'Gallery - '. ($ws->name ?? env('APP_NAME')))
 
 @section('meta')
-<meta name="description" content="Explore our food gallery at {{ $ws->name ?? env('APP_NAME') }}.">
-<meta name="keywords" content="Gallery, Food, Coffee, Restaurant, Uttara">
+<meta name="description" content="Explore the MN Coffee gallery - from farm sourcing in Bandarban to specialty coffee roasting.">
+<meta name="keywords" content="MN Coffee, Coffee Gallery, Specialty Coffee Bangladesh, Bandarban Coffee Farmers">
 @endsection
 
 @push('css')
@@ -41,7 +41,7 @@
                     <div class="section-head text-center" data-aos="fade-up" data-aos-duration="1000">
                         <span class="sm-title" style="color: #c59d5f; font-weight: 600; text-transform: uppercase;">Our Gallery</span>
                         <h2 class="sec-title" style="font-family: 'Oswald', sans-serif; font-size: 40px; margin-top: 10px;">
-                            Organize Food Gallery
+                            Our Coffee Journey
                         </h2>
                     </div>
                 </div>
@@ -51,8 +51,8 @@
                     <div class="col-xl-3 col-md-4 col-sm-6 col-12 mb-4">
                         <div class="product-card position-relative overflow-hidden" style="border-radius: 10px;">
                             <div class="product-img">
-                                <a href="{{ asset('storage/galleries/' . $image->featured_image) }}" data-fslightbox="gallery">
-                                    <img src="{{ asset('storage/galleries/' . ($image->thumbnail_image ?? $image->featured_image)) }}" 
+                                <a href="{{ route('imagecache', ['template' => 'original', 'filename' => $image->featured_image]) }}" data-fslightbox="gallery">
+                                    <img src="{{ route('imagecache', ['template' => 'medium', 'filename' => ($image->thumbnail_image ?: $image->featured_image)]) }}" 
                                          alt="{{ $image->title }}" 
                                          class="w-100" 
                                          style="height: 250px; object-fit: cover; transition: transform 0.3s ease;">

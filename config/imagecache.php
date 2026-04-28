@@ -51,7 +51,10 @@ return [
         public_path('storage/ambulance_images'),
         public_path('storage/product_categories_images'),
         public_path('storage/product_images'),
-         public_path('storage/idcards'),
+        public_path('storage/idcards'),
+        storage_path('app/public/galleries'),
+        storage_path('app/public/product_images'),
+        storage_path('app/public/media'),
 
     ],
 

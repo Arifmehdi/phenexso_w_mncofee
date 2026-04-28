@@ -24,114 +24,58 @@
         <!---------------
             Banner 
         -------------->
-        <section>
-            <div>
-                <div id="carouselExample" class="carousel slide">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active position-relative">
-                            <div class="text-end">
-                                <img
-                                    class="ad-banner-img "
-                                    src="{{ asset('mncofee/assets/img/aida-images/banner.png') }}"
-                                    class="d-block w-100"
-                                    alt="..."
-                                >
-                            </div>
-                            <div class="ad-banner-content">
-                                <div class="ad-banner-text-container">
-                                    <div class="ad-banner-text-effect">
-                                        <p>Uttara Coffee House</p>
-                                    <h1>different spice for a different taste</h1>
-                                    <a href="#">
-                                        <button>Read More</button>
-                                    </a>
-                                    </div>
-                                </div>
-                            <div class="ad-banner-person-container">
-                                <div class="ad-banner-person ">
-                                    <img src="{{ asset('mncofee/assets/img/aida-images/banner-person1.png') }}" alt="">
-                                </div>
+<section>
+    <div>
+        <div id="carouselExample" class="carousel slide">
+            
+            <div class="carousel-inner">
+                @foreach($sliders as $key => $slider)
+                <div class="carousel-item {{ $key == 0 ? 'active' : '' }} position-relative">
+                    
+                    <div class="text-end">
+                        <img
+                            class="ad-banner-img"
+                            src="{{ asset('mncofee/assets/img/aida-images/banner.png') }}"
+                            alt=""
+                        >
+                    </div>
+
+                    <div class="ad-banner-content">
+                        <div class="ad-banner-text-container">
+                            
+                            <p>{{ $slider->sub_title ?? 'Uttara Coffee House' }}</p>
+
+                            <h1>{{ $slider->title }}</h1>
+
+                            <a href="{{ $slider->link ?? '#' }}">
+                                <button>Read More</button>
+                            </a>
+
+                        </div>
+
+                        <div class="ad-banner-person-container">
+                            <div class="ad-banner-person">
+                                <img src="{{ asset('mncofee/assets/img/aida-images/banner-person1.png') }}" alt="">
                             </div>
                         </div>
                     </div>
-                    <div class="carousel-item position-relative">
-                        <div class="text-end">
-                            <img
-                                class="ad-banner-img "
-                                src="{{ asset('mncofee/assets/img/aida-images/banner.png') }}"
-                                class="d-block w-100"
-                                alt="..."
-                            >
-                        </div>
-                        <div class="ad-banner-content">
-                            <div class="ad-banner-text-container">
-                                <p>Uttara Coffee House</p>
-                                <h1>different spice for a different taste</h1>
-                                <a href="#">
-                                    <button>Read More</button>
-                                </a>
-                            </div>
-                            <div class="ad-banner-person-container">
-                                <div class="ad-banner-person ">
-                                    <img src="{{ asset('mncofee/assets/img/aida-images/banner-person1.png') }}" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item position-relative">
-                        <div class="text-end">
-                            <img
-                                class="ad-banner-img "
-                                src="{{ asset('mncofee/assets/img/aida-images/banner.png') }}"
-                                class="d-block w-100"
-                                alt="..."
-                            >
-                        </div>
-                        <div class="ad-banner-content">
-                            <div class="ad-banner-text-container" data-aos="fade-right">
-                                <p>Uttara Coffee House</p>
-                                <h1>different spice for a different taste</h1>
-                                <a href="#">
-                                    <button>Read More</button>
-                                </a>
-                            </div>
-                            <div class="ad-banner-person-container">
-                                <div class="ad-banner-person ">
-                                    <img src="{{ asset('mncofee/assets/img/aida-images/banner-person1.png') }}" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
-                <div>   
-                    <button
-                        class="carousel-control-prev ad-carousel-prev-btn"
-                        type="button"
-                        data-bs-target="#carouselExample"
-                        data-bs-slide="prev"
-                    >
-                        <div class="ad-carousel-arrow">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </div>
-                    </button>
-                </div>
-                <div>
-                    <button
-                        class="carousel-control-next ad-carousel-next-btn"
-                        type="button"
-                        data-bs-target="#carouselExample"
-                        data-bs-slide="next"
-                    >
-                        <div class="ad-carousel-arrow">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </div>
-                    </button>
-                </div>
+                @endforeach
             </div>
+
+            <!-- Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+
         </div>
-    </section>
+    </div>
+</section>
 {{--<section>
     <div>
         <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
@@ -216,25 +160,29 @@
         <div class="ad-about-text-container">
             <h5>about us</h5>
             <h4>
-                {{ $ws->name ?? 'Cafeu' }} restoracia online
+                MN Coffee
                 <br class="d-none d-xxl-block">
-                awesome food for you
+                Local Beans, Global Taste.
             </h4>
             <p>
-                {!! $ws->about_us ?? 'Quis autem vel eum iure reprehenderit qui in evoluptate velit esse qua nihil molestiae consequatur, vel illum qui dolorem eum fugiat quvoluptas nulla pariatureaqua ipsa quae ab illo' !!}
+                MN Coffee is a Bangladesh-based specialty coffee venture connecting hill farmers with urban cafés through a direct farm-to-market supply chain. We focus on improving quality, traceability, and farmer income by developing local Arabica production and better post-harvest practices.
             </p>
             <div class="ad-about-list-container">
                 <div class="d-flex gap-3 align-items-center">
                     <i class="fa-regular fa-square-check"></i>
-                    <p>Project Quality Management Plan</p>
+                    <p>B2B supply of roasted coffee beans (Arabica & Robusta)</p>
                 </div>
                 <div class="d-flex gap-3 align-items-center">
                     <i class="fa-regular fa-square-check"></i>
-                    <p>The Ability to Delegate Tasks</p>
+                    <p>Direct sourcing from Bandarban hill farmers</p>
                 </div>
                 <div class="d-flex gap-3 align-items-center">
                     <i class="fa-regular fa-square-check"></i>
-                    <p>It might be a finished or unfinished</p>
+                    <p>Custom roast profiles for cafés</p>
+                </div>
+                <div class="d-flex gap-3 align-items-center">
+                    <i class="fa-regular fa-square-check"></i>
+                    <p>Quality-controlled and traceable coffee supply</p>
                 </div>
             </div>
             <a href="{{ route('about-us') }}">Read More</a>
@@ -263,9 +211,9 @@
     <div class="ad-service">
         <div class="ad-service-title-container">
             <img src="{{ asset('mncofee/assets/img/aida-images/service-icon.png') }}" alt="">
-            <h4>Quality Service</h4>
+            <h4>Our Specialty Process</h4>
             <p>
-                Explore our wide range of services designed to provide you with the best experience.
+                From direct farm sourcing to custom roasting, discover how we bring the best coffee to your cup.
             </p>
         </div>
         <div class="container ad-service-container">
@@ -387,9 +335,9 @@
     <div class="ad-chef">
         <div class="ad-chef-title-container">
             <img src="{{ asset('mncofee/assets/img/aida-images/service-icon.png') }}" alt="">
-            <h4>Group of professional chefs</h4>
+            <h4>Specialty Coffee Experts</h4>
             <p>
-                Our team of dedicated professionals is here to serve you.
+                Our team of dedicated coffee professionals ensures the highest quality in every bean.
             </p>
         </div>
         <div class="container ad-chef-container">

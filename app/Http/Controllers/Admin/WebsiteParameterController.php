@@ -46,6 +46,7 @@ class WebsiteParameterController extends Controller
         $wp->about_title  = $request->about_title;
         $wp->about_subtitle = $request->about_subtitle;
         $wp->about_img = $request->about_us_image;
+        $wp->iframe_map = $request->iframe_map;
 
         $wp->editedby_id = Auth::id();
 

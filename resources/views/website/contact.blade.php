@@ -33,7 +33,7 @@
 </section>
 
 <!-- Our Office -->
-<section data-aos="fade-up">
+{{--<section data-aos="fade-up">
     <div class=" contact-page-office-container">
         <div class="contact-page-single-office">
             <div class="overflow-hidden">
@@ -141,7 +141,7 @@
             </div>
         </div>
     </div>
-</section>
+</section>--}}
 
 <!-- Contact Form -->
 <section data-aos="fade-up">
@@ -218,8 +218,8 @@
                 <i class="fa-solid fa-phone-volume"></i>
                 <div>
                     <h5>Call Now</h5>
-                    <a href="tel:{{ $ws->phone ?? '+554551556695' }}">
-                        <span>{{ $ws->phone ?? '+554551556695' }}</span>
+                    <a href="tel:{{ $ws->contact_mobile ?? '+554551556695' }}">
+                        <span>{{ $ws->contact_mobile ?? '+554551556695' }}</span>
                     </a>
                 </div>
             </div>
@@ -227,21 +227,21 @@
                 <i class="fa-solid fa-envelope-open-text"></i>
                 <div>
                     <h5>Message Now</h5>
-                    <span>{{ $ws->email ?? 'info@example.com' }}</span>
+                    <span>{{ $ws->contact_email ?? 'info@example.com' }}</span>
                 </div>
             </div>
             <div class="contact-page-right-single-container">
                 <i class="fa-solid fa-location-dot"></i>
                 <div>
                     <h5>Address Now</h5>
-                    <span>{{ $ws->address ?? 'Uttara, Dhaka' }}</span>
+                    <span>{{ $ws->contact_address ?? 'Uttara, Dhaka' }}</span>
                 </div>
             </div>
         </div>
     </div>
     <div class="contact-page-map">
         <iframe
-            src="https://maps.google.com/maps?q={{ urlencode($ws->address ?? 'dhaka') }}&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
+            src="{{ $ws->iframe_map ?? 'https://maps.google.com/maps?q=dhaka&t=&z=13&ie=UTF8&iwloc=&output=embed' }}"
             frameborder="0"
             scrolling="no"
             style="width: 100%; height: 450px;"

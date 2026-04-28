@@ -5,7 +5,7 @@
     <nav>
         <div class="ad-navbar-sm d-flex justify-content-between align-items-center d-lg-none">
             <div>
-                <img src="{{ route('imagecache', ['template' => 'original', 'filename' => $ws->logo()]) }}" alt="{{ $ws->name }}" style="max-height: 50px;">
+                <img src="{{ route('imagecache', ['template' => 'original', 'filename' => $ws->logo_alt()]) }}" alt="{{ $ws->name }}" style="max-height: 50px;">
             </div>
             <div
                 class="ad-responsive-menubar"
@@ -99,6 +99,15 @@
                                 </div>
                             </a>
                         </div>
+                        <div class="ad-header-cart-container">
+                            <a href="{{ route('login') }}" class="text-decoration-none">
+                                <div class="ad-cart-img-container" style="width: 21px; height: 35px; border-radius: 50%; overflow: hidden;">
+                                     <i class="fa-solid fa-user"></i>
+                                    {{-- <img src="{{ route('imagecache', ['template' => 'original', 'filename' => auth()->user()->profile_image ?? 'default.png']) }}" alt="{{ auth()->user()->name ?? 'User' }}" style="width: 100%; height: 100%; object-fit: cover;"> --}}
+                                    <i class="fa-light fa-cart-user"></i>
+                                </div>
+                            </a>
+                        </div>
                         <div class="fs-5">
                             <a href="{{ route('service') }}">
                                 <button>Our Process</button>
@@ -116,7 +125,7 @@
         >
             <div class="d-flex align-items-center justify-content-between mt-3 mx-3">
                 <a href="{{ route('home') }}">
-                    <img src="{{ route('imagecache', ['template' => 'original', 'filename' => $ws->logo()]) }}" alt="{{ $ws->name }}" style="max-height: 50px;">
+                    <img src="{{ route('imagecache', ['template' => 'original', 'filename' => $ws->logo_alt()]) }}" alt="{{ $ws->name }}" style="max-height: 50px;">
                 </a>
                 <div class="ad-responsive-close-btn">
                     <button
@@ -148,6 +157,9 @@
                     </li>
                     <li>
                         <a href="{{ route('contact') }}">Contact</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('login') }}">Login</a>
                     </li>
                 </ul>
                 <div class="ad-responsive-search position-relative">
