@@ -282,24 +282,43 @@
                 tabindex="0"
             >
                 <div class="container ad-offer-container">
-                    @foreach($category->products->take(6) as $product)
-                    <div class="ad-offer-single-card">
+                    @foreach($category->products->where('feature', 1)->take(6) as $product)
+                    <div class="ad-offer-single-card h-auto py-3">
                         <div class="">
                             <a href="{{ route('productDetails', $product->slug) }}">
-                                <img src="{{ route('imagecache', ['template' => 'pnism', 'filename' => $product->fi()]) }}" alt="{{ $product->name_en }}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
+                                <img src="{{ route('imagecache', ['template' => 'pnism', 'filename' => $product->fi()]) }}" alt="{{ $product->name_en }}" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%;">
                             </a>
                         </div>
-                        <div>
-                            <a href="{{ route('productDetails', $product->slug) }}" class="ad-offer-card-text-container">
-                                <h5>{{ strtoupper($product->name_en) }}</h5>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <span class="ad-offer-dotted">------------------------------</span>
-                                    <span class="ad-offer-responsive-dotted">-------------</span>
-                                    <span class="ad-offer-price"> ৳{{ number_format($product->final_price, 2) }}</span>
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-baseline gap-2">
+                                <div class="ad-offer-card-text-container flex-grow-1">
+                                    <div class="d-flex flex-column">
+                                        <small class="text-uppercase text-muted" style="font-size: 10px;">
+                                            @foreach ($product->categories as $cat)
+                                                {{ $cat->name_en }}@if(!$loop->last), @endif
+                                            @endforeach
+                                        </small>
+                                        <h5 class="mb-0" style="width: auto; max-width: 260px;">{{ strtoupper($product->name_en) }}</h5>
+                                    </div>
+                                    <div class="d-none d-md-flex flex-grow-1 align-items-center">
+                                        <span class="ad-offer-dotted w-100" style="border-bottom: 2px dotted #A45517; height: 1px; margin-bottom: 8px;"></span>
+                                    </div>
                                 </div>
-                            </a>
-                            <p>{{ Str::limit(strip_tags($product->description_en), 100) }}</p>
-                            <a href="#" class="add-to-cart-btn" data-id="{{ $product->id }}">Add To Cart</a>
+                                <div class="text-end">
+                                    <div class="d-flex flex-column">
+                                       {{-- @if($product->discount > 0)
+                                            <span class="text-muted text-decoration-line-through small" style="font-size: 12px;">
+                                                ৳{{ number_format($product->price, 2) }}
+                                            </span>
+                                        @endif--}}
+                                        <span class="ad-offer-price" style="font-size: 24px;"> ৳{{ number_format($product->selling_price, 2) }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="mb-2">{{ Str::limit(strip_tags($product->description_en), 80) }}</p>
+                            <div class="mt-2 productCartItem" data-product="{{ $product->id }}" style="max-width: 220px;">
+                                @include('frontend.home.includes.productCartItem')
+                            </div>
                         </div>
                     </div>
                     @endforeach
@@ -331,7 +350,7 @@
 <!-------------------
     Our Chef (Placeholder or Team)
 ----------------->
-<section data-aos="fade-up">
+{{-- <section data-aos="fade-up">
     <div class="ad-chef">
         <div class="ad-chef-title-container">
             <img src="{{ asset('mncofee/assets/img/aida-images/service-icon.png') }}" alt="">
@@ -406,7 +425,7 @@
             </div>
         </div>
     </div>
-</section>
+</section>--}}
 
 <!-----------------------
     Online Reservation
@@ -631,35 +650,105 @@ $(document).ready(function() {
             ride: 'carousel'
         });
     }
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 });
 
-$(document).on('click', '.add-to-cart-btn', function(e) {
-    e.preventDefault();
-    var id = $(this).data('id');
-    $.ajax({
-        url: "{{ route('cart.quick.add') }}",
-        type: "GET",
-        data: {
-            id: id
-        },
-        success: function(res) {
-            if(res.success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: res.message,
-                    timer: 2000,
-                    showConfirmButton: false
-                }).then(() => {
-                    location.reload();
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: res.message,
-                });
+// Add to Cart
+$(document).on("click", ".addToCart", function () {
+    let btn = $(this);
+    let url = btn.data("url");
+    let product_id = btn.data("product");
+    let qty = parseInt(btn.closest(".cart-action-wrapper").find(".product_qty").val()) || 1;
+
+    $.post(url, { product: product_id, qty: qty }, function (res) {
+        if (res.status) {
+            // Find the specific container for this product to update its HTML
+            $(`.productCartItem[data-product="${product_id}"]`).html(res.productCartItem);
+            
+            $(".cartCount").text(res.cartCount);
+            $(".cartItemsCount").text(res.cartItemsCount);
+            if(res.cartTotal) {
+                $(".cartTotalPrice").text(parseFloat(res.cartTotal).toFixed(2) + " tk");
             }
+
+            Swal.fire({
+                toast: true, 
+                icon: "success", 
+                title: res.message,
+                position: "top-end", 
+                timer: 2000, 
+                showConfirmButton: false
+            });
+        }
+    }).fail(() => {
+        Swal.fire("Error", "Could not add to cart.", "error");
+    });
+});
+
+// Update Cart Item
+$(document).on('click', '.updateCartItem', function (e) {
+    e.preventDefault();
+
+    let $btn = $(this);
+    let cartId = $btn.data('cart');
+    let url = $btn.data('url');
+    let $wrapper = $btn.closest('.cart-action-wrapper');
+    let product_id = $wrapper.data('product');
+    let qty = parseInt($wrapper.find('.cartQtyDisplay').text()) || 0;
+
+    if ($btn.hasClass('plus')) {
+        qty++;
+    } else if ($btn.hasClass('minus')) {
+        qty--;
+        if (qty < 0) qty = 0;
+    }
+
+    $btn.prop('disabled', true);
+
+    $.ajax({
+        url: url,
+        method: 'POST',
+        data: {
+            cart: cartId,
+            new_qty: qty
+        },
+        success: function (res) {
+            if (res.status) {
+                if (qty === 0) {
+                    $wrapper.closest(".productCartItem").html(`
+                        <div class="cart-action-wrapper" data-product="${product_id}">
+                            <div class="add-to-cart-initial-btn">
+                                <button class="btn btn-primary btn-sm rounded-pill w-100 addToCart" 
+                                        data-url="${res.add_to_cart_url}"
+                                        data-product="${product_id}"
+                                        style="height: 38px; background-color: #A45517; border-color: #A45517;">
+                                    Add to Cart
+                                </button>
+                                <input type="hidden" name="product_qty" value="1" class="product_qty">
+                            </div>
+                        </div>
+                    `);
+                } else {
+                    $wrapper.find('.cartQtyDisplay').text(qty);
+                }
+
+                $('.cartCount').text(res.cartCount);
+                $('.cartItemsCount').text(res.cartItemsCount);
+                if(res.cartTotal) {
+                    $(".cartTotalPrice").text(parseFloat(res.cartTotal).toFixed(2) + " tk");
+                }
+            }
+        },
+        error: function () {
+            alert('Something went wrong! Please try again.');
+        },
+        complete: function () {
+            $btn.prop('disabled', false);
         }
     });
 });

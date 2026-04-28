@@ -1,264 +1,305 @@
-@extends('website.layouts.master')
+@extends('website.layouts.mncofee')
 
-@section('title', 'Blog Details - '. env('APP_NAME') )
+@section('title', $news->title . ' - ' . ($ws->name ?? env('APP_NAME')))
 
 @section('meta')
-<meta name="description"
-    content="Contact North Bengal for inquiries, product details, or business queries. Get in touch via phone, email, or visit our office.">
-<meta name="keywords" content="contact north bengal, contact us, north bengal inquiries, phone, email, office location">
-<meta property="og:title" content="Contact Us - North Bengal">
-<meta property="og:description" content="Reach North Bengal for product inquiries or business partnerships.">
-<meta property="og:image" content="{{ asset('frontend/assets/img/northbengal/contact_banner.png') }}">
-<meta property="og:type" content="website">
+<meta name="description" content="{{ Str::limit(strip_tags($news->description), 160) }}">
+<meta name="keywords" content="{{ $news->category->name_en ?? 'blog, coffee, news' }}">
+<meta property="og:title" content="{{ $news->title }}">
+<meta property="og:description" content="{{ Str::limit(strip_tags($news->description), 160) }}">
+<meta property="og:image" content="{{ route('imagecache', ['template' => 'original', 'filename' => $news->fi()]) }}">
+<meta property="og:type" content="article">
 @endsection
+
+@push('css')
+<style>
+    .ad-blog-banner {
+        background-image: url("{{ asset('mncofee/assets/img/aida-images/menu-banner.png') }}") !important;
+        background-size: cover;
+        background-position: center;
+        height: 300px;
+    }
+    .ad-blog-banner-overlay {
+        background: rgba(0, 0, 0, 0.5);
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+    }
+    .ad-blog-banner-overlay a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 5px;
+    }
+    .ad-blog-banner-overlay .selected-page {
+        color: #A45517;
+    }
+    .blog-details-content img {
+        width: 100%;
+        border-radius: 15px;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .blog-meta-single {
+        margin-right: 20px;
+        font-size: 14px;
+        color: #666;
+    }
+    .blog-meta-single i {
+        color: #A45517;
+        margin-right: 5px;
+    }
+    .sidebar-title {
+        position: relative;
+        padding-bottom: 15px;
+        margin-bottom: 25px;
+        font-size: 20px;
+        border-bottom: 2px solid #f1f1f1;
+    }
+    .sidebar-title::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 50px;
+        height: 2px;
+        background: #A45517;
+    }
+    .sidebar-post-single {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    .sidebar-post-img img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+    .sidebar-post-title {
+        font-size: 14px;
+        line-height: 1.4;
+        margin-bottom: 5px;
+    }
+    .sidebar-post-title a {
+        color: #333;
+        font-weight: 600;
+    }
+    .sidebar-post-title a:hover {
+        color: #A45517;
+    }
+    .sidebar-post-date {
+        font-size: 12px;
+        color: #999;
+    }
+    .category-list li {
+        margin-bottom: 12px;
+    }
+    .category-list li a {
+        display: flex;
+        justify-content: space-between;
+        color: #555;
+        transition: 0.3s;
+    }
+    .category-list li a:hover {
+        color: #A45517;
+        padding-left: 5px;
+    }
+    .tag-list a {
+        display: inline-block;
+        padding: 6px 15px;
+        background: #f8f9fa;
+        color: #666;
+        border-radius: 5px;
+        margin: 0 5px 10px 0;
+        font-size: 13px;
+        transition: 0.3s;
+    }
+    .tag-list a:hover {
+        background: #A45517;
+        color: #fff;
+    }
+    .related-post-card {
+        border: none;
+        transition: 0.3s;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    .related-post-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    .blog-content-area {
+        line-height: 1.8;
+        color: #444;
+        font-size: 16px;
+    }
+    .blog-content-area p {
+        margin-bottom: 20px;
+    }
+</style>
+@endpush
+
 @section('content')
-<!-- BREADCRUMB AREA START -->
-<x-breadcrumb title="News Details" pageName="Latest News" bgImage="frontend/img/bg/9.jpg" />
-<!-- BREADCRUMB AREA END -->
-
-<!-- PAGE DETAILS AREA START (blog-details) -->
-<div class="ltn__page-details-area ltn__blog-details-area mb-120">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="ltn__blog-details-wrap">
-                    <div class="ltn__page-details-inner ltn__blog-details-inner">
-                        <div class="ltn__blog-meta">
-                            <ul>
-                                <li class="ltn__blog-category">
-                                    <a href="#">{{$news->category->name}}</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <h2 class="ltn__blog-title">{{ $news->title }}</h2>
-                        <img src="{{ route('imagecache', ['template'=>'cpmd','filename' => $news->fi()]) }}" alt="{{ $news->title }}">
-                        <div class="ltn__blog-meta">
-                            <ul>
-                                <!-- <li class="ltn__blog-author">
-                                    <a href="#"><img src="{{ asset('frontend/img/blog/author.jpg') }}" alt="#">By: Ethan</a>
-                                </li> -->
-                                <li class="ltn__blog-date">
-                                    <i class="far fa-calendar-alt"></i>{{ $news->created_at->format('M d, Y') }}
-                                </li>
-                                <!-- <li>
-                                    <a href="#"><i class="far fa-comments"></i>35 Comments</a>
-                                </li> -->
-                            </ul>
-                        </div>
-                        <p>{!! $news->description !!}</p>
-
-                    </div>
-                    <!-- blog-tags-social-media -->
-                    <div class="ltn__blog-tags-social-media mt-80 row">
-                        <div class="ltn__tagcloud-widget col-lg-8">
-                            <h4>Releted Tags</h4>
-                            <ul>
-                                <li>
-                                    <a href="#">Popular</a>
-                                </li>
-                                <li>
-                                    <a href="#">Business</a>
-                                </li>
-                                <li>
-                                    <a href="#">ux</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="ltn__social-media text-right text-end col-lg-4">
-                            <h4>Social Share</h4>
-                            <x-blog-media />
-                        </div>
-                    </div>
-                    <hr>
-                    <!-- prev-next-btn --> 
-                    <div class="ltn__prev-next-btn row mb-50">
-                        <div class="blog-prev col-lg-6">
-                            <h6>Prev Post</h6>
-                            <h3 class="ltn__blog-title"><a href="#">Tips On Minimalist</a></h3>
-                        </div>
-                        <div class="blog-prev blog-next text-right text-end col-lg-6">
-                            <h6>Next Post</h6>
-                            <h3 class="ltn__blog-title"><a href="#">Less Is More</a></h3>
-                        </div>
-                    </div>
-                    <hr>
-                    <!-- related-post -->
-                    <div class="related-post-area mb-50">
-                        <h4 class="title-2">Related Post</h4>
-                        <div class="row">
-                            @forelse($relatedPosts as $relate)
-                            <div class="col-md-6">
-                                <!-- Blog Item -->
-                                <div class="ltn__blog-item ltn__blog-item-6">
-                                    <div class="ltn__blog-img">
-                                        <a href="{{ route('singleNews', ['id' => $relate->id]) }}"><img src="{{ route('imagecache', ['template'=>'cpmd','filename' => $relate->fi()]) }}"
-                                                alt="{{ $relate->title }}"></a>
-                                    </div>
-                                    <div class="ltn__blog-brief">
-                                        <div class="ltn__blog-meta">
-                                            <ul>
-                                                <li class="ltn__blog-date ltn__secondary-color">
-                                                    <i class="far fa-calendar-alt"></i>{{ $relate->created_at->format('M d, Y') }}
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <h3 class="ltn__blog-title"><a href="{{ route('singleNews', ['id' => $relate->id]) }}">{{ $relate->title }}</a></h3>
-                                        <p>Lorem ipsum dolor sit amet, conse ctet ur adipisicing elit, sed doing.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            @empty 
-                            <p>There have no related post</p>
-                            @endforelse
-                            {{--<div class="col-md-6">
-                                <!-- Blog Item -->
-                                <div class="ltn__blog-item ltn__blog-item-6">
-                                    <div class="ltn__blog-img">
-                                        <a href="blog-details.html"><img src="{{ asset('frontend/img/blog/blog-details/12.jpg') }}"
-                                                alt="Image"></a>
-                                    </div>
-                                    <div class="ltn__blog-brief">
-                                        <div class="ltn__blog-meta">
-                                            <ul>
-                                                <li class="ltn__blog-date ltn__secondary-color">
-                                                    <i class="far fa-calendar-alt"></i>June 22, 2020
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <h3 class="ltn__blog-title"><a href="blog-details.html">A series of iOS 7
-                                                inspire
-                                                vector icons sense.</a></h3>
-                                        <p>Lorem ipsum dolor sit amet, conse ctet ur adipisicing elit, sed doing.</p>
-                                    </div>
-                                </div>
-                            </div>--}}
-                        </div>
-                    </div>
-                    <!-- comment-area -->
-                    <div class="ltn__comment-area mb-50">
-                        <div class="ltn-author-introducing clearfix">
-                            <div class="author-img">
-                                <img src="{{ asset('frontend/img/blog/author.jpg') }}" alt="Author Image">
-                            </div>
-                            <div class="author-info">
-                                <h6>Written by</h6>
-                                <h1>Rosalina D. William</h1>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                    exercitation is enougn for today.</p>
-                            </div>
-                        </div>
-                        <h4 class="title-2">03 Comments</h4>
-                        <div class="ltn__comment-inner">
-                            <ul>
-                                <li>
-                                    <div class="ltn__comment-item clearfix">
-                                        <div class="ltn__commenter-img">
-                                            <img src="{{ asset('frontend/img/testimonial/1.jpg') }}" alt="Image">
-                                        </div>
-                                        <div class="ltn__commenter-comment">
-                                            <h6><a href="#">Adam Smit</a></h6>
-                                            <span class="comment-date">20th May 2020</span>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus,
-                                                omnis fugit corporis iste magnam ratione.</p>
-                                            <a href="#" class="ltn__comment-reply-btn"><i
-                                                    class="icon-reply-1"></i>Reply</a>
-                                        </div>
-                                    </div>
-                                    <ul>
-                                        <li>
-                                            <div class="ltn__comment-item clearfix">
-                                                <div class="ltn__commenter-img">
-                                                    <img src="{{ asset('frontend/img/testimonial/3.jpg') }}" alt="Image">
-                                                </div>
-                                                <div class="ltn__commenter-comment">
-                                                    <h6><a href="#">Adam Smit</a></h6>
-                                                    <span class="comment-date">21th May 2020</span>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                                        Doloribus, omnis fugit corporis iste magnam ratione.</p>
-                                                    <a href="#" class="ltn__comment-reply-btn"><i
-                                                            class="icon-reply-1"></i>Reply</a>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <div class="ltn__comment-item clearfix">
-                                        <div class="ltn__commenter-img">
-                                            <img src="{{ asset('frontend/img/testimonial/4.jpg') }}" alt="Image">
-                                        </div>
-                                        <div class="ltn__commenter-comment">
-                                            <h6><a href="#">Adam Smit</a></h6>
-                                            <span class="comment-date">25th May 2020</span>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus,
-                                                omnis fugit corporis iste magnam ratione.</p>
-                                            <a href="#" class="ltn__comment-reply-btn"><i
-                                                    class="icon-reply-1"></i>Reply</a>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <hr>
-                    <!-- comment-reply -->
-                    <div class="ltn__comment-reply-area ltn__form-box mb-10">
-                        <h4 class="title-2">Post Comment</h4>
-                        <form action="#">
-                            <div class="input-item input-item-textarea ltn__custom-icon">
-                                <textarea placeholder="Type your comments...."></textarea>
-                            </div>
-                            <div class="input-item input-item-name ltn__custom-icon">
-                                <input type="text" placeholder="Type your name....">
-                            </div>
-                            <div class="input-item input-item-email ltn__custom-icon">
-                                <input type="email" placeholder="Type your email....">
-                            </div>
-                            <div class="input-item input-item-website ltn__custom-icon">
-                                <input type="text" name="website" placeholder="Type your website....">
-                            </div>
-                            <label class="mb-0 input-info-save"><input type="checkbox" name="agree"> Save my name,
-                                email, and website in this browser for the next time I comment.</label>
-                            <div class="btn-wrapper">
-                                <button class="btn theme-btn-1 btn-effect-1 text-uppercase" type="submit"><i
-                                        class="far fa-comments"></i> Post Comment</button>
-                            </div>
-                        </form>
-                    </div>
+<!--------------- 
+    Banner 
+---------------->
+<section>
+    <div class="ad-blog-banner position-relative">
+        <div class="ad-blog-banner-overlay text-center">
+            <div>
+                <h1 class="text-white mb-3" style="font-family: 'Oswald', sans-serif;">Blog Details</h1>
+                <div class="d-flex justify-content-center align-items-center">
+                    <a href="{{ route('home') }}">Home</a>
+                    <span class="text-white">/</span>
+                    <a class="selected-page" href="{{ route('news') }}"> Blog</a>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row g-5">
+            <!-- Left Content Area -->
+            <div class="col-lg-8">
+                <article class="blog-details-wrap">
+                    <div class="blog-img mb-4" data-aos="fade-up">
+                        <img src="{{ route('imagecache', ['template' => 'original', 'filename' => $news->fi()]) }}" 
+                             alt="{{ $news->title }}" class="img-fluid rounded-4 shadow-sm w-100">
+                    </div>
+
+                    <div class="blog-meta mb-3" data-aos="fade-up">
+                        <span class="blog-meta-single"><i class="far fa-calendar-alt"></i> {{ $news->created_at->format('d M, Y') }}</span>
+                        <span class="blog-meta-single"><i class="far fa-folder"></i> {{ $news->category->name_en ?? 'General' }}</span>
+                        <span class="blog-meta-single"><i class="far fa-user"></i> Admin</span>
+                    </div>
+
+                    <h2 class="mb-4" style="font-family: 'Oswald', sans-serif; font-size: 32px;" data-aos="fade-up">
+                        {{ $news->title }}
+                    </h2>
+
+                    <div class="blog-content-area mb-5" data-aos="fade-up">
+                        {!! $news->description !!}
+                    </div>
+
+                    <!-- Tags and Share -->
+                    <div class="d-flex flex-wrap justify-content-between align-items-center py-4 border-top border-bottom mb-5" data-aos="fade-up">
+                        <div class="tag-list">
+                            <span class="fw-bold me-2">Tags:</span>
+                            <a href="#">Coffee</a>
+                            <a href="#">Hill Farmers</a>
+                            <a href="#">Specialty</a>
+                        </div>
+                        <div class="social-share d-flex align-items-center gap-3">
+                            <span class="fw-bold">Share:</span>
+                            <a href="#" class="text-dark"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="text-dark"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="text-dark"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Related Posts -->
+                    <div class="related-posts mb-5" data-aos="fade-up">
+                        <h4 class="mb-4" style="font-family: 'Oswald', sans-serif;">Related Posts</h4>
+                        <div class="row g-4">
+                            @forelse($relatedPosts->take(2) as $relate)
+                                <div class="col-md-6">
+                                    <div class="card related-post-card h-100">
+                                        <a href="{{ route('singleNews', ['id' => $relate->id]) }}">
+                                            <img src="{{ route('imagecache', ['template' => 'cpmd', 'filename' => $relate->fi()]) }}" 
+                                                 class="card-img-top" alt="{{ $relate->title }}" style="height: 200px; object-fit: cover;">
+                                        </a>
+                                        <div class="card-body">
+                                            <small class="text-muted d-block mb-2">{{ $relate->created_at->format('M d, Y') }}</small>
+                                            <h5 class="card-title" style="font-size: 16px;">
+                                                <a href="{{ route('singleNews', ['id' => $relate->id]) }}" class="text-dark text-decoration-none">
+                                                    {{ Str::limit($relate->title, 50) }}
+                                                </a>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="col-12">
+                                    <p class="text-muted small italic">No related posts found.</p>
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Sidebar -->
             <div class="col-lg-4">
-                <aside class="sidebar-area blog-sidebar ltn__right-sidebar">
-                    <!-- Author Widget -->
-                    <x-blog-author />
-
+                <aside class="ps-lg-4">
                     <!-- Search Widget -->
-                    <x-blog-search />
+                    <div class="mb-5" data-aos="fade-up">
+                        <h4 class="sidebar-title">Search</h4>
+                        <form action="#" class="position-relative">
+                            <input type="text" class="form-control py-2 ps-3 pe-5 rounded-pill" placeholder="Search news...">
+                            <button class="btn position-absolute top-50 end-0 translate-middle-y text-primary border-0 bg-transparent pe-3">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
 
-                    <!-- Menu Widget (Category) -->
-                    <x-blog-category />
+                    <!-- Latest Posts -->
+                    <div class="mb-5" data-aos="fade-up">
+                        <h4 class="sidebar-title">Latest Posts</h4>
+                        @foreach($latestPosts->take(4) as $latest)
+                            <div class="sidebar-post-single">
+                                <div class="sidebar-post-img">
+                                    <a href="{{ route('singleNews', ['id' => $latest->id]) }}">
+                                        <img src="{{ route('imagecache', ['template' => 'pnism', 'filename' => $latest->fi()]) }}" alt="{{ $latest->title }}">
+                                    </a>
+                                </div>
+                                <div class="sidebar-post-content">
+                                    <h5 class="sidebar-post-title">
+                                        <a href="{{ route('singleNews', ['id' => $latest->id]) }}" class="text-decoration-none">
+                                            {{ Str::limit($latest->title, 40) }}
+                                        </a>
+                                    </h5>
+                                    <span class="sidebar-post-date">{{ $latest->created_at->format('d M, Y') }}</span>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
 
-                    <!-- Popular Post Widget -->
-                    <x-blog-popular />
+                    <!-- Categories -->
+                    <div class="mb-5" data-aos="fade-up">
+                        <h4 class="sidebar-title">Categories</h4>
+                        <ul class="category-list ps-0">
+                            @foreach($newsCategories as $cat)
+                                <li>
+                                    <a href="#" class="text-decoration-none">
+                                        <span>{{ $cat->name }}</span>
+                                        <span class="text-muted small">({{ $cat->news_count ?? 0 }})</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
 
-                    <!-- Social Media Widget -->
-                    <x-blog-media />
-
-                    <!-- Tagcloud Widget -->
-                    <x-blog-tag /> 
-
-                    <!-- Banner Widget -->
-                    <x-blog-banner />
-
+                    <!-- Tags -->
+                    <div class="mb-5" data-aos="fade-up">
+                        <h4 class="sidebar-title">Popular Tags</h4>
+                        <div class="tag-list">
+                            <a href="#">Coffee</a>
+                            <a href="#">Hill Tracts</a>
+                            <a href="#">Farming</a>
+                            <a href="#">Specialty</a>
+                            <a href="#">Brewing</a>
+                            <a href="#">Roasting</a>
+                        </div>
+                    </div>
                 </aside>
             </div>
         </div>
     </div>
-</div>
-<!-- PAGE DETAILS AREA END -->
-
-<!-- FEATURE AREA START ( Feature - 3) -->
-<x-footer-feature />
-<!-- FEATURE AREA END -->
+</section>
 @endsection

@@ -13,8 +13,9 @@ class BlogCategory extends Model
         return $this->hasMany(BlogSubCategory::class);
     }
 
+    // Changed from belongsToMany to hasMany based on category_id column in blog_posts table
     public function posts(){
-        return $this->belongsToMany(BlogPost::class,'blog_category_posts','blog_category_id','blog_post_id');
+        return $this->hasMany(BlogPost::class, 'category_id');
     }
 
 }

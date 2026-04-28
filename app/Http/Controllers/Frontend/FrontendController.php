@@ -59,7 +59,7 @@ class FrontendController extends Controller
     $data['categories'] = ProductCategory::where('active', true)
         ->with(['products' => function($query) {
             $query->where('active', 1)
-                  ->select('products.id', 'products.name_en',  'products.slug', 'products.featured_image', 'products.price', 'products.discount_price') // Select only needed fields
+                  ->select('products.id', 'products.name_en',  'products.slug', 'products.featured_image', 'products.price', 'products.discount_price', 'products.selling_price', 'products.feature', 'products.active') // Select only needed fields
                   ->take(8); // Limit products per category
         }])
         ->whereHas('products', function($query) { // Only categories that have products
@@ -513,6 +513,14 @@ class FrontendController extends Controller
                                 ->orderBy('created_at', 'desc') // latest first
                                 ->take(5)                       // limit to 5 posts
                                 ->get();
+
+        $data['latestPosts'] = BlogPost::where('active', true)
+                                ->where('status', 'published')
+                                ->orderBy('created_at', 'desc')
+                                ->take(5)
+                                ->get();
+
+        $data['newsCategories'] = \App\Models\BlogCategory::withCount('posts')->get();
 
         $data['news'] = $news;
         return view('website.blog_details', $data);

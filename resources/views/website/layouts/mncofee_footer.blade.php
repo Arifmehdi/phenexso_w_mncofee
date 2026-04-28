@@ -98,7 +98,11 @@
             </div>
         </div>
         <div class="ad-footer-bottom">
-            <p>{{ $ws->copyright ?? 'Codebasket © 2023. All Rights Reserved.' }}</p>
+        <p>
+            Copyright © {{ date('Y') }}
+            <a href="https://phenexsoft.com/">Phenexsoft IT</a>.
+            All Rights Reserved.
+        </p>
             <img src="{{ asset('mncofee/assets/img/aida-images/payment.png') }}" alt="payment">
         </div>
     </div>
