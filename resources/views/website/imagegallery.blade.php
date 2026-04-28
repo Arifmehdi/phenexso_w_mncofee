@@ -52,7 +52,7 @@
                         <div class="product-card position-relative overflow-hidden" style="border-radius: 10px;">
                             <div class="product-img">
                                 <a href="{{ route('imagecache', ['template' => 'original', 'filename' => $image->featured_image]) }}" data-fslightbox="gallery">
-                                    <img src="{{ route('imagecache', ['template' => 'medium', 'filename' => ($image->thumbnail_image ?: $image->featured_image)]) }}" 
+                                    <img src="{{ asset('storage/galleries/' . $image->featured_image) }}" 
                                          alt="{{ $image->title }}" 
                                          class="w-100" 
                                          style="height: 250px; object-fit: cover; transition: transform 0.3s ease;">
