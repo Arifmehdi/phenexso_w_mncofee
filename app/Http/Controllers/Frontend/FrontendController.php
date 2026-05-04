@@ -1307,9 +1307,9 @@ public function quickAdd(Request $request)
             // Mail::to('noreply@hublibd.com')->send(new OrderConfirmationEmail($order));
             
             // Send email to customer if email is provided
-            if ($order->email) {
-                Mail::to($order->email)->send(new OrderConfirmationEmail($order));
-            }
+            // if ($order->email) {
+            //     Mail::to($order->email)->send(new OrderConfirmationEmail($order));
+            // }
 
             return redirect()->route('user.dashboard')->with('success', 'Order placed successfully!');
         } else {
@@ -1336,7 +1336,7 @@ public function quickAdd(Request $request)
             Cart::where('session_id', session('session_id'))->delete();
 
             // Send email to admin
-            Mail::to('noreply@hublibd.com')->send(new OrderConfirmationEmail($order));
+            // Mail::to('noreply@hublibd.com')->send(new OrderConfirmationEmail($order));
             
             // Send email to customer if email is provided
             if ($location->email) {

@@ -1,6 +1,6 @@
 @extends('website.layouts.mncofee')
 
-@section('title', 'Gallery - '. ($ws->name ?? env('APP_NAME')))
+@section('title', 'Gallery - '.  env('APP_NAME'))
 
 @section('meta')
 <meta name="description" content="Explore the MN Coffee gallery - from farm sourcing in Bandarban to specialty coffee roasting.">
@@ -51,8 +51,8 @@
                     <div class="col-xl-3 col-md-4 col-sm-6 col-12 mb-4">
                         <div class="product-card position-relative overflow-hidden" style="border-radius: 10px;">
                             <div class="product-img">
-                                <a href="{{ route('imagecache', ['template' => 'original', 'filename' => $image->featured_image]) }}" data-fslightbox="gallery">
-                                    <img src="{{ asset('storage/galleries/' . $image->featured_image) }}" 
+                                <a href="{{ route('imagecache', ['template' => 'original', 'filename' => $image->featured_image]) }}" data-fslightbox="gallery" data-type="image">
+                                    <img src="{{ route('imagecache', ['template' => 'original', 'filename' => $image->featured_image]) }}" 
                                          alt="{{ $image->title }}" 
                                          class="w-100" 
                                          style="height: 250px; object-fit: cover; transition: transform 0.3s ease;">
@@ -78,7 +78,6 @@
 @endsection
 
 @push('js')
-<script src="{{ asset('mncofee/assets/js/fslightbox/fslightbox.js') }}"></script>
 <style>
     .product-card:hover .view-project {
         transform: translateY(0) !important;

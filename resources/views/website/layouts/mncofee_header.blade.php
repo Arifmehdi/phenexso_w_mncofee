@@ -95,7 +95,7 @@
                             <a href="{{ route('new.checkout') }}" class="text-decoration-none">
                                 <div class="ad-cart-img-container">
                                     <i class="fa-light fa-cart-shopping"></i>
-                                    <span class="ad-cart-count">{{ App\Models\Cart::cartCount() }}</span>
+                                    <span class="ad-cart-count cartCount">{{ App\Models\Cart::cartCount() }}</span>
                                 </div>
                             </a>
                         </div>
