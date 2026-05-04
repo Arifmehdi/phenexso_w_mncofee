@@ -17,6 +17,20 @@
         transform: translateY(-5px);
         box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
     }
+    .product-card-img {
+        overflow: hidden;
+        border-radius: 1rem;
+        background: #fff;
+    }
+    .product-card-img img {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    .product-card-img:hover img {
+        transform: scale(1.03);
+    }
     .sidebar {
         background: #fff;
         padding: 20px;
@@ -180,14 +194,13 @@
                 <!-- Products Grid -->
                 <div class="row g-3">
                     @forelse ($products as $product)
-                        <div class="col-6 col-md-4 col-lg-3">
+                        <div class="col-6 col-md-4 col-lg-4">
                             <div class="card h-100 border-0 shadow-sm card-hover">
-                                <div class="position-relative overflow-hidden text-center p-2">
+                                <div class="position-relative overflow-hidden text-center p-2 product-card-img">
                                     <a href="{{ route('productDetails', $product->slug) }}">
-                                        <img src="{{ route('imagecache', ['template' => 'pnism', 'filename' => $product->fi()]) }}" 
-                                             class="card-img-top rounded-circle" 
-                                             alt="{{ $product->name_en }}"
-                                             style="width: 120px; height: 120px; object-fit: cover; margin: 0 auto;">
+                                        <img src="{{ route('imagecache', ['template' => 'pnimd', 'filename' => $product->fi()]) }}" 
+                                             class="card-img-top" 
+                                             alt="{{ $product->name_en }}">
                                     </a>
                                 </div>
                                 <div class="card-body p-3 d-flex flex-column text-center">
