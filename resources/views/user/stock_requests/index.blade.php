@@ -26,7 +26,7 @@
             @forelse($stockRequests as $request)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $request->product->name }}</td>
+                    <td>{{ $request->product->name_en ?? 'Product Not Found' }}</td>
                     <td>{{ $request->quantity }}</td>
                     <td>{{ \Carbon\Carbon::parse($request->collection_datetime)->format('d-m-Y h:i A') }}</td>
                     <td>{{ $request->collection_location }}</td>

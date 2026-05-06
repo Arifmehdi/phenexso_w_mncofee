@@ -114,8 +114,10 @@ class FrontendController extends Controller
             ->limit(3)
             ->get();
 
+        $data['content'] = \App\Models\PageContent::where('page_slug', 'home')->first();
+
         return view('website.index', $data);  
-    }
+        }
 
     // For lazy loading products via AJAX
     public function getProductsByCategory($categoryId)
@@ -235,6 +237,8 @@ class FrontendController extends Controller
             ->limit(5)
             ->select('id','name','designation','image','text_en','designation')
             ->get();
+        
+        $data['content'] = \App\Models\PageContent::where('page_slug', 'about')->first();
 
         return view('website.about', $data);  
     }
@@ -259,6 +263,7 @@ class FrontendController extends Controller
     public function service()
     {
         $data['services'] = Hospital::latest()->whereActive(true)->get(); 
+        $data['content'] = \App\Models\PageContent::where('page_slug', 'process')->first();
         return view('website.process', $data);
     }
 

@@ -23,12 +23,23 @@ class HomeController extends Controller
 {
     public function index(){
         menuSubmenu('dashboardM','dashboardSM');
-        $users = User::get()->count();
-        $cat = ProductCategory::where('parent_id', null)->get()->count();
-        $productcount = Product::get()->count();
-        $orders = Order::get()->count();
-        $products = Product::latest()->take(10)->get();
-        return view('admin.index',compact('users','cat','products', 'orders', 'productcount'));
+        $users = User::count();
+        $cat = ProductCategory::where('parent_id', null)->count();
+        $productcount = Product::count();
+        $ordersCount = Order::count();
+        
+        // New stats for at-a-glance view
+        $todayOrders = Order::whereDate('created_at', now()->today())->count();
+        $pendingOrders = Order::where('order_status', 'pending')->count();
+        $totalRevenue = Order::where('payment_status', 'paid')->sum('subtotal');
+        
+        $products = Product::latest()->take(5)->get();
+        $recentOrders = Order::latest()->take(5)->get();
+
+        return view('admin.index', compact(
+            'users', 'cat', 'products', 'ordersCount', 'productcount', 
+            'todayOrders', 'pendingOrders', 'totalRevenue', 'recentOrders'
+        ));
     }
 
 

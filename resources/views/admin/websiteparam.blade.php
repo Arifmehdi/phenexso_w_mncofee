@@ -78,10 +78,10 @@
                                     <textarea name="meta_description" class="form-control" rows="4" id="meta_description" placeholder="Meta Description for SEO of Website">{{ old('meta_description') ?: $websiteParameter->meta_description ?? '' }}</textarea>
                                 </div>
 
-                                <div class="form-group ">
+                                {{--<div class="form-group ">
                                     <label for="footer_copyright" class="control-label">Footer Copyright Text</label>
                                     <textarea name="footer_copyright" class="form-control" rows="4" id="footer_copyright" placeholder="Copyright text in footer area">{{ old('footer_copyright') ?: $websiteParameter->footer_copyright ?? '' }}</textarea>
-                                </div>
+                                </div>--}}
 
 
                                 <div class="form-group ">
@@ -102,6 +102,12 @@
                                 <div class="form-group ">
                                     <label for="contact_email" class="  control-label">Contact email</label>
                                     <input type="text" name="contact_email" class="form-control" value="{{ old('contact_email') ?: $websiteParameter->contact_email ?? '' }}" id="contact_email" placeholder="example@.com" autocomplete="off">
+                                </div>
+
+                                <div class="form-group ">
+                                    <label for="opening_hours" class="control-label">Opening Hours</label>
+                                    <textarea name="opening_hours" class="form-control" rows="4" id="opening_hours" placeholder="Mon - 8am to 9pm&#10;Saturday - 9am to 4pm">{{ old('opening_hours') ?: $websiteParameter->opening_hours ?? '' }}</textarea>
+                                    <small class="text-muted">Enter each timing in a new line.</small>
                                 </div>
 
                                 <div class="form-group ">
@@ -217,7 +223,7 @@
                 
                 <!-- about section Start -->
 
-                <div class="row">
+                {{--<div class="row">
                     <div class="col-sm-12">
                         <div class="card card-widget">
                             <div class="card-header with-border">
@@ -270,7 +276,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>--}}
 
                 <!-- about section end  -->
 

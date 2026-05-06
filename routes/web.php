@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\UserRoleController;
 use App\Http\Controllers\Admin\WebsiteParameterController;
 use App\Http\Controllers\Admin\AdminTestimonialController;
+use App\Http\Controllers\Admin\PageContentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WishlistController;
@@ -620,6 +621,15 @@ Route::middleware(['userRole:admin','auth'])->prefix('admin')->group(function(){
     // Vehicle Assignment Admin Routes
     Route::resource('vehicle-assignments', \App\Http\Controllers\Admin\VehicleAssignmentController::class)->names('admin.vehicle_assignments');
 
+    Route::resource('page_contents', PageContentController::class)->names([
+        'index' => 'admin.page_contents.index',
+        'create' => 'admin.page_contents.create',
+        'store' => 'admin.page_contents.store',
+        'show' => 'admin.page_contents.show',
+        'edit' => 'admin.page_contents.edit',
+        'update' => 'admin.page_contents.update',
+        'destroy' => 'admin.page_contents.destroy',
+    ]);
 });
 
 Route::middleware(['auth', 'retailer'])->prefix('retailer')->group(function () {

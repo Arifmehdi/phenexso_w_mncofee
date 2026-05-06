@@ -99,14 +99,32 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="ad-header-cart-container">
-                            <a href="{{ route('login') }}" class="text-decoration-none">
-                                <div class="ad-cart-img-container" style="width: 21px; height: 35px; border-radius: 50%; overflow: hidden;">
-                                     <i class="fa-solid fa-user"></i>
-                                    {{-- <img src="{{ route('imagecache', ['template' => 'original', 'filename' => auth()->user()->profile_image ?? 'default.png']) }}" alt="{{ auth()->user()->name ?? 'User' }}" style="width: 100%; height: 100%; object-fit: cover;"> --}}
-                                    <i class="fa-light fa-cart-user"></i>
-                                </div>
-                            </a>
+                        <div class="ad-header-cart-container dropdown">
+                            @auth
+                                <a href="#" class="text-decoration-none" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="ad-cart-img-container" style="color: #A45517; border-color: #A45517;">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg" aria-labelledby="userDropdown" style="border-radius: 12px; margin-top: 10px; min-width: 180px;">
+                                    <li class="px-4 py-2 border-bottom mb-2 bg-light">
+                                        <small class="text-muted d-block" style="font-size: 10px; text-transform: uppercase; letter-spacing: 1px;">Logged in as</small>
+                                        <strong class="text-dark">{{ auth()->user()->name }}</strong>
+                                    </li>
+                                    @if(auth()->user()->role == 'admin')
+                                        <li><a class="dropdown-item py-2 px-4" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt me-2" style="width: 20px;"></i> Admin Dashboard</a></li>
+                                    @endif
+                                    <li><a class="dropdown-item py-2 px-4" href="{{ route('user.dashboard') }}"><i class="fas fa-user-circle me-2" style="width: 20px;"></i> Member Dashboard</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item py-2 px-4 text-danger" href="{{ route('logout') }}"><i class="fas fa-sign-out-alt me-2" style="width: 20px;"></i> Logout</a></li>
+                                </ul>
+                            @else
+                                <a href="{{ route('login') }}" class="text-decoration-none">
+                                    <div class="ad-cart-img-container">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                </a>
+                            @endauth
                         </div>
                         <div class="fs-5">
                             <a href="{{ route('service') }}">

@@ -57,28 +57,58 @@
             </div>
         </div>
         <div class="ad-about-text-container">
-            <h5>Our Story</h5>
-            <h4>Specialty Coffee Venture <br> in Bangladesh</h4>
+            <h5>{{ $content->subtitle ?? 'Our Story' }}</h5>
+            <h4>{!! $content->title ?? 'Specialty Coffee Venture <br> in Bangladesh' !!}</h4>
             <p>
-                MN Coffee is a Bangladesh-based specialty coffee venture connecting hill farmers with urban cafés through a direct farm-to-market supply chain. We focus on improving quality, traceability, and farmer income by developing local Arabica production and better post-harvest practices.
+                {{ $content->description ?? 'MN Coffee is a Bangladesh-based specialty coffee venture connecting hill farmers with urban cafés through a direct farm-to-market supply chain. We focus on improving quality, traceability, and farmer income by developing local Arabica production and better post-harvest practices.' }}
             </p>
             
             <div class="mt-5">
-                <div class="mission-vision-card" data-aos="fade-left">
-                    <h4>Our Mission</h4>
-                    <p>To build a sustainable, high-quality local coffee industry that benefits farmers and meets premium market demand.</p>
-                </div>
-                
-                <div class="mission-vision-card" data-aos="fade-left" data-aos-delay="200">
-                    <h4>Our Vision</h4>
-                    <p>To position Bangladesh as an emerging origin for specialty coffee.</p>
-                </div>
+                @if(isset($content->highlights) && is_array($content->highlights))
+                    @foreach($content->highlights as $index => $highlight)
+                        <div class="mission-vision-card" data-aos="fade-left" data-aos-delay="{{ $index * 200 }}">
+                            <h4>{{ $highlight['title'] ?? '' }}</h4>
+                            <p>{{ $highlight['text'] ?? '' }}</p>
+                        </div>
+                    @endforeach
+                @else
+                    <div class="mission-vision-card" data-aos="fade-left">
+                        <h4>Our Mission</h4>
+                        <p>To build a sustainable, high-quality local coffee industry that benefits farmers and meets premium market demand.</p>
+                    </div>
+                    
+                    <div class="mission-vision-card" data-aos="fade-left" data-aos-delay="200">
+                        <h4>Our Vision</h4>
+                        <p>To position Bangladesh as an emerging origin for specialty coffee.</p>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
 </section>
 
 <!-- Core Focus -->
+@if(isset($content->meta['objectives']) && is_array($content->meta['objectives']))
+<section class="py-5" style="background: #f9f4ef;">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h5 style="color: #A45517;">{{ $content->meta['focus_subtitle'] ?? 'Our Focus' }}</h5>
+            <h2 style="font-family: 'Oswald', sans-serif;">{{ $content->meta['focus_title'] ?? 'Key Objectives' }}</h2>
+        </div>
+        <div class="row">
+            @foreach($content->meta['objectives'] as $index => $obj)
+            <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
+                <div class="text-center p-4 bg-white shadow-sm rounded">
+                    <i class="{{ $obj['icon'] ?? 'fa-light fa-circle' }} fa-3x mb-3" style="color: #A45517;"></i>
+                    <h5>{{ $obj['title'] ?? '' }}</h5>
+                    <p>{{ $obj['text'] ?? '' }}</p>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+@else
 <section class="py-5" style="background: #f9f4ef;">
     <div class="container">
         <div class="text-center mb-5" data-aos="fade-up">
@@ -110,6 +140,7 @@
         </div>
     </div>
 </section>
+@endif
 
 <!-----------------------
     Customer Review

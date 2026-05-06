@@ -4,7 +4,7 @@
 
 @section('meta')
 <meta name="description" content="Get in touch with {{ $ws->name ?? env('APP_NAME') }}. We are here to help you with your inquiries.">
-<meta name="keywords" content="Contact, Coffee, Help, Inquiries, Uttara">
+<meta name="keywords" content="Contact, Coffee, Help, Inquiries, MNCOfee">
 @endsection
 
 @push('css')

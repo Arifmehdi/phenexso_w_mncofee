@@ -3,10 +3,10 @@
 @section('title', 'Home - '. ($ws->name ?? env('APP_NAME')))
 
 @section('meta')
-<meta name="description" content="{{ $ws->meta_description ?? 'Uttara Coffee House offers premium coffee and world-class services.' }}">
-<meta name="keywords" content="{{ $ws->meta_keywords ?? 'Coffee, Uttara, quality coffee' }}">
+<meta name="description" content="{{ $ws->meta_description ?? 'MN Coffee Coffee House offers premium coffee and world-class services.' }}">
+<meta name="keywords" content="{{ $ws->meta_keywords ?? 'Coffee, MN Coffee, quality coffee' }}">
 <meta property="og:title" content="Home - {{ $ws->name ?? env('APP_NAME') }}">
-<meta property="og:description" content="{{ $ws->meta_description ?? 'Discover quality coffee at Uttara Coffee House.' }}">
+<meta property="og:description" content="{{ $ws->meta_description ?? 'Discover quality coffee at MN Coffee Coffee House.' }}">
 <meta property="og:image" content="{{ route('imagecache', ['template' => 'original', 'filename' => $ws->logo()]) }}">
 <meta property="og:type" content="website">
 <meta name="robots" content="index, follow">
@@ -20,13 +20,21 @@
     .hero-slider {
         position: relative;
         overflow: hidden;
+        background-color: #000;
     }
     .hero-slider .carousel-item {
         height: 100vh;
-        min-height: 600px;
+        min-height: 500px;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
+        transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+    }
+    @media (max-width: 768px) {
+        .hero-slider .carousel-item {
+            height: 80vh;
+            min-height: 400px;
+        }
     }
     .hero-slider .carousel-item::before {
         content: '';
@@ -35,95 +43,168 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.4);
+        background: linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.2) 100%);
         z-index: 1;
     }
     .hero-slider .carousel-caption {
         position: absolute;
         top: 50%;
-        left: 10%;
-        right: auto;
+        left: 8%;
+        right: 8%;
         transform: translateY(-50%);
         z-index: 2;
         text-align: left;
         color: white;
-        max-width: 500px;
+        max-width: 700px;
+        padding: 0;
+        background: transparent;
+        backdrop-filter: none;
+        border: none;
+        box-shadow: none;
+    }
+    .hero-slider .carousel-caption .caption-content {
         background: rgba(0, 0, 0, 0.3);
-        backdrop-filter: blur(10px);
-        padding: 2rem;
-        border-radius: 15px;
+        backdrop-filter: blur(8px);
+        padding: 3rem;
+        border-radius: 20px;
         border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease-out;
+    }
+    .hero-slider .carousel-item.active .carousel-caption .caption-content {
+        opacity: 1;
+        transform: translateY(0);
     }
     .hero-slider .carousel-caption h1 {
-        font-size: 3rem;
+        font-family: 'Oswald', sans-serif;
+        font-size: 4.5rem;
         font-weight: 700;
-        margin-bottom: 1rem;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-        line-height: 1.2;
+        margin-bottom: 1.5rem;
+        text-transform: uppercase;
+        line-height: 1.1;
+        letter-spacing: -1px;
     }
     .hero-slider .carousel-caption p {
-        font-size: 1.1rem;
-        margin-bottom: 2rem;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
-        opacity: 0.95;
-        line-height: 1.4;
+        font-family: 'Jost', sans-serif;
+        font-size: 1.25rem;
+        margin-bottom: 2.5rem;
+        opacity: 0.9;
+        line-height: 1.6;
+        max-width: 90%;
     }
     .hero-slider .btn-hero {
-        background: linear-gradient(135deg, #A45517 0%, #8a4514 100%);
-        border: none;
-        padding: 14px 32px;
-        font-size: 1.1rem;
+        background: #A45517;
+        color: white;
+        border: 2px solid #A45517;
+        padding: 16px 40px;
+        font-size: 1rem;
         font-weight: 600;
         border-radius: 50px;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(164, 85, 23, 0.3);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 2px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
     }
     .hero-slider .btn-hero:hover {
-        background: linear-gradient(135deg, #8a4514 0%, #6a3510 100%);
-        transform: translateY(-3px);
-        box-shadow: 0 6px 20px rgba(164, 85, 23, 0.4);
+        background: transparent;
+        color: #A45517;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     }
+    /* Custom Indicators */
+    .hero-slider .carousel-indicators {
+        bottom: 40px;
+        justify-content: center;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        z-index: 15;
+        width: 100%;
+    }
+    .hero-slider .carousel-indicators [data-bs-target] {
+        width: 60px;
+        height: 4px;
+        background-color: rgba(255, 255, 255, 0.3);
+        border: none;
+        border-radius: 2px;
+        margin: 0 5px;
+        transition: all 0.3s ease;
+    }
+    .hero-slider .carousel-indicators .active {
+        background-color: #A45517;
+        width: 100px;
+    }
+
+    /* Controls */
     .hero-slider .carousel-control-prev,
     .hero-slider .carousel-control-next {
-        display: none;
+        width: 60px;
+        height: 60px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: 0 20px;
+        opacity: 0;
+        transition: all 0.4s ease;
+        z-index: 10;
     }
+    .hero-slider:hover .carousel-control-prev,
+    .hero-slider:hover .carousel-control-next {
+        opacity: 1;
     }
+    .hero-slider .carousel-control-prev:hover,
+    .hero-slider .carousel-control-next:hover {
+        background: #A45517;
+    }
+
+    /* Hide any sidebar navigation if present */
+    .sidebar-nav, .ad-sidebar-nav, .ad-side-menu {
+        display: none !important;
+    }
+
+    @media (max-width: 992px) {
+        .hero-slider .carousel-caption h1 {
+            font-size: 3.5rem;
+        }
+    }
+
     @media (max-width: 768px) {
         .hero-slider .carousel-caption {
             left: 5%;
             right: 5%;
-            top: 60%;
             text-align: center;
-            max-width: none;
-            padding: 1.5rem;
+        }
+        .hero-slider .carousel-caption .caption-content {
+            padding: 2rem;
+            border-radius: 15px;
         }
         .hero-slider .carousel-caption h1 {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
         }
         .hero-slider .carousel-caption p {
-            font-size: 1rem;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 100%;
+        }
+        .hero-slider .carousel-indicators {
+            bottom: 20px;
         }
         .hero-slider .btn-hero {
-            padding: 12px 28px;
-            font-size: 1rem;
+            padding: 12px 30px;
         }
     }
     @media (max-width: 576px) {
-        .hero-slider .carousel-caption {
-            top: 65%;
-            padding: 1rem;
-        }
         .hero-slider .carousel-caption h1 {
-            font-size: 1.8rem;
+            font-size: 2rem;
         }
         .hero-slider .carousel-caption p {
-            font-size: 0.9rem;
-        }
-        .hero-slider .btn-hero {
-            padding: 10px 24px;
             font-size: 0.95rem;
         }
     }
@@ -145,12 +226,14 @@
         <div class="carousel-inner">
             @foreach($sliders as $key => $slider)
             <div class="carousel-item {{ $key == 0 ? 'active' : '' }}" style="background-image: url('{{ route('imagecache', ['template' => 'original', 'filename' => $slider->fi()]) }}');">
-                <div class="carousel-caption d-none d-md-block">
-                    <p class="mb-3">{{ $slider->sub_title ?? 'Welcome to MN Coffee' }}</p>
-                    <h1>{{ $slider->title }}</h1>
-                    @if($slider->link)
-                    <a href="{{ $slider->link }}" class="btn btn-hero">Read More</a>
-                    @endif
+                <div class="carousel-caption">
+                    <div class="caption-content">
+                        <p class="mb-3">{{ $slider->sub_title ?? 'Welcome to MN Coffee' }}</p>
+                        <h1 class="animate-text">{{ $slider->title }}</h1>
+                        @if($slider->link)
+                        <a href="{{ $slider->link }}" class="btn btn-hero animate-button">Explore More</a>
+                        @endif
+                    </div>
                 </div>
             </div>
             @endforeach
@@ -186,32 +269,39 @@
             </div>
         </div>
         <div class="ad-about-text-container">
-            <h5>about us</h5>
+            <h5>{{ $content->subtitle ?? 'about us' }}</h5>
             <h4>
-                MN Coffee
-                <br class="d-none d-xxl-block">
-                Local Beans, Global Taste.
+                {!! $content->title ?? 'MN Coffee <br class="d-none d-xxl-block"> Local Beans, Global Taste.' !!}
             </h4>
             <p>
-                MN Coffee is a Bangladesh-based specialty coffee venture connecting hill farmers with urban cafés through a direct farm-to-market supply chain. We focus on improving quality, traceability, and farmer income by developing local Arabica production and better post-harvest practices.
+                {{ $content->description ?? 'MN Coffee is a Bangladesh-based specialty coffee venture connecting hill farmers with urban cafés through a direct farm-to-market supply chain. We focus on improving quality, traceability, and farmer income by developing local Arabica production and better post-harvest practices.' }}
             </p>
             <div class="ad-about-list-container">
-                <div class="d-flex gap-3 align-items-center">
-                    <i class="fa-regular fa-square-check"></i>
-                    <p>B2B supply of roasted coffee beans (Arabica & Robusta)</p>
-                </div>
-                <div class="d-flex gap-3 align-items-center">
-                    <i class="fa-regular fa-square-check"></i>
-                    <p>Direct sourcing from Bandarban hill farmers</p>
-                </div>
-                <div class="d-flex gap-3 align-items-center">
-                    <i class="fa-regular fa-square-check"></i>
-                    <p>Custom roast profiles for cafés</p>
-                </div>
-                <div class="d-flex gap-3 align-items-center">
-                    <i class="fa-regular fa-square-check"></i>
-                    <p>Quality-controlled and traceable coffee supply</p>
-                </div>
+                @if(isset($content->highlights) && is_array($content->highlights))
+                    @foreach($content->highlights as $highlight)
+                    <div class="d-flex gap-3 align-items-center">
+                        <i class="fa-regular fa-square-check"></i>
+                        <p>{{ $highlight }}</p>
+                    </div>
+                    @endforeach
+                @else
+                    <div class="d-flex gap-3 align-items-center">
+                        <i class="fa-regular fa-square-check"></i>
+                        <p>B2B supply of roasted coffee beans (Arabica & Robusta)</p>
+                    </div>
+                    <div class="d-flex gap-3 align-items-center">
+                        <i class="fa-regular fa-square-check"></i>
+                        <p>Direct sourcing from Bandarban hill farmers</p>
+                    </div>
+                    <div class="d-flex gap-3 align-items-center">
+                        <i class="fa-regular fa-square-check"></i>
+                        <p>Custom roast profiles for cafés</p>
+                    </div>
+                    <div class="d-flex gap-3 align-items-center">
+                        <i class="fa-regular fa-square-check"></i>
+                        <p>Quality-controlled and traceable coffee supply</p>
+                    </div>
+                @endif
             </div>
             <a href="{{ route('about-us') }}">Read More</a>
         </div>
@@ -239,9 +329,9 @@
     <div class="ad-service">
         <div class="ad-service-title-container">
             <img src="{{ asset('mncofee/assets/img/aida-images/service-icon.png') }}" alt="">
-            <h4>Our Specialty Process</h4>
+            <h4>{{ $content->meta['process_title'] ?? 'Our Specialty Process' }}</h4>
             <p>
-                From direct farm sourcing to custom roasting, discover how we bring the best coffee to your cup.
+                {{ $content->meta['process_subtitle'] ?? 'From direct farm sourcing to custom roasting, discover how we bring the best coffee to your cup.' }}
             </p>
         </div>
         <div class="container ad-service-container">
@@ -277,9 +367,9 @@
     <div class="ad-offer">
         <div class="ad-offer-title-container">
             <img src="{{ asset('mncofee/assets/img/aida-images/service-icon.png') }}" alt="">
-            <h4>Try Our Special Offers</h4>
+            <h4>{{ $content->meta['offer_title'] ?? 'Try Our Special Offers' }}</h4>
             <p>
-                Check out our featured products and special deals.
+                {{ $content->meta['offer_subtitle'] ?? 'Check out our featured products and special deals.' }}
             </p>
         </div>
         <ul class="nav ad-offer-tab-container" id="myTab" role="tablist">
@@ -456,117 +546,52 @@
 </section>--}}
 
 <!-----------------------
-    Online Reservation
+    Counters Section (Modernized)
 ---------------------->
-<section data-aos="fade-up">
-    <div class="ad-reservation position-relative">
-        <div class="d-flex justify-content-center">
-            <div class="ad-reservation-form-container">
-                <img src="{{ asset('mncofee/assets/img/aida-images/service-icon.png') }}" alt="">
-                <h4>Online Reservation</h4>
-                <div>
-                    <form action="{{ route('contact.store') }}" method="POST">
-                        @csrf
-                        <div class="row ad-reservation-form">
-                            <div class="col-12 col-sm-6 position-relative">
-                                <input
-                                    type="text"
-                                    name="name"
-                                    placeholder="Name"
-                                    required
-                                >
-                                <i class="fa-regular fa-user"></i>
-                            </div>
-                            <div class="col-12 col-sm-6 position-relative">
-                                <input
-                                    type="text"
-                                    name="phone"
-                                    placeholder="Phone"
-                                    required
-                                >
-                                <i class="fa-solid fa-phone"></i>
-                            </div>
-                        </div>
-                        <div class="row ad-reservation-form">
-                            <div class="col-12 col-sm-6 position-relative">
-                                <select name="persons" id="">
-                                    <option value="" selected disabled hidden>Persons</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="4+">5+</option>
-                                </select>
-                            </div>
-                            <div class="col-12 col-sm-6 position-relative">
-                                <select name="location" id="">
-                                    <option value="" selected disabled hidden>Location</option>
-                                    <option value="Mirpur">Mirpur</option>
-                                    <option value="Uttara">Uttara</option>
-                                    <option value="Nikunjo">Nikunjo</option>
-                                    <option value="Khilkhet">Khilkhet</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row ad-reservation-form">
-                            <div class="col-sm-6 col-12 position-relative">
-                                <input
-                                    type="date"
-                                    name="date"
-                                    placeholder="Date"
-                                >
-                            </div>
-                            <div class="col-12 col-sm-6 position-relative">
-                                <input
-                                    type="time"
-                                    name="time"
-                                    placeholder="Time"
-                                >
-                            </div>
-                        </div>
-                        <button type="submit">Book A Table</button>
-                    </form>
+<section class="py-5 position-relative overflow-hidden" style="background: url('{{ asset($content->meta['counter_bg'] ?? 'mncofee/assets/img/aida-images/reservation-bg.png') }}') center/cover no-repeat fixed;">
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.7); backdrop-filter: blur(2px);"></div>
+    <div class="container position-relative py-5" data-aos="fade-up">
+        <div class="row g-4 justify-content-center">
+            @if(isset($content->meta['counters']) && is_array($content->meta['counters']))
+                @foreach($content->meta['counters'] as $counter)
+                <div class="col-6 col-md-3">
+                    <div class="text-center p-4 rounded-4" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); transition: transform 0.3s ease;">
+                        <i class="{{ $counter['icon'] ?? 'fa-light fa-circle' }} fa-3x mb-3" style="color: #A45517;"></i>
+                        <h2 class="fw-bold mb-1 text-white counter-value" data-target="{{ $counter['count'] ?? 0 }}" style="font-family: 'Oswald', sans-serif;">0</h2>
+                        <p class="text-white-50 mb-0 text-uppercase small letter-spacing-1">{{ $counter['label'] ?? '' }}</p>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="container ad-reservation-container">
-            <div class="ad-reservation-single-content">
-                <img src="{{ asset('mncofee/assets/img/aida-images/happy-face-reservation.png') }}" alt="">
-                <div>
-                    <p>5670</p>
-                    <span>Happy Customers</span>
+                @endforeach
+            @else
+                <div class="col-6 col-md-3">
+                    <div class="text-center p-4 rounded-4" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                        <i class="fa-light fa-face-smile fa-3x mb-3" style="color: #A45517;"></i>
+                        <h2 class="fw-bold mb-1 text-white counter-value" data-target="5670" style="font-family: 'Oswald', sans-serif;">0</h2>
+                        <p class="text-white-50 mb-0 text-uppercase small">Happy Customers</p>
+                    </div>
                 </div>
-            </div>
-            <div class="ad-reservation-line-shape">
-                <img src="{{ asset('mncofee/assets/img/aida-images/reservation-line-shape.png') }}" alt="">
-            </div>
-            <div class="ad-reservation-single-content">
-                <img src="{{ asset('mncofee/assets/img/aida-images/reservation-chef.png') }}" alt="">
-                <div>
-                    <p>29</p>
-                    <span>Pationate Chef's</span>
+                <div class="col-6 col-md-3">
+                    <div class="text-center p-4 rounded-4" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                        <i class="fa-light fa-hat-chef fa-3x mb-3" style="color: #A45517;"></i>
+                        <h2 class="fw-bold mb-1 text-white counter-value" data-target="29" style="font-family: 'Oswald', sans-serif;">0</h2>
+                        <p class="text-white-50 mb-0 text-uppercase small">Passionate Chefs</p>
+                    </div>
                 </div>
-            </div>
-            <div class="ad-reservation-line-shape">
-                <img src="{{ asset('mncofee/assets/img/aida-images/reservation-line-shape.png') }}" alt="">
-            </div>
-            <div class="ad-reservation-single-content">
-                <img src="{{ asset('mncofee/assets/img/aida-images/reservation-rice.png') }}" alt="">
-                <div>
-                    <p>260</p>
-                    <span>Favourite Dishes</span>
+                <div class="col-6 col-md-3">
+                    <div class="text-center p-4 rounded-4" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                        <i class="fa-light fa-mug-hot fa-3x mb-3" style="color: #A45517;"></i>
+                        <h2 class="fw-bold mb-1 text-white counter-value" data-target="260" style="font-family: 'Oswald', sans-serif;">0</h2>
+                        <p class="text-white-50 mb-0 text-uppercase small">Favorite Dishes</p>
+                    </div>
                 </div>
-            </div>
-            <div class="ad-reservation-line-shape d-xs-none">
-                <img src="{{ asset('mncofee/assets/img/aida-images/reservation-line-shape.png') }}" alt="">
-            </div>
-            <div class="ad-reservation-single-content">
-                <img src="{{ asset('mncofee/assets/img/aida-images/reservation-review.png') }}" alt="">
-                <div>
-                    <p>778</p>
-                    <span>Customer Rating</span>
+                <div class="col-6 col-md-3">
+                    <div class="text-center p-4 rounded-4" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                        <i class="fa-light fa-star fa-3x mb-3" style="color: #A45517;"></i>
+                        <h2 class="fw-bold mb-1 text-white counter-value" data-target="778" style="font-family: 'Oswald', sans-serif;">0</h2>
+                        <p class="text-white-50 mb-0 text-uppercase small">Customer Rating</p>
+                    </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
 </section>
@@ -578,9 +603,9 @@
     <div class="ad-customer-review">
         <div class="ad-review-title-container">
             <img src="{{ asset('mncofee/assets/img/aida-images/service-icon.png') }}" alt="">
-            <h4>What Our Customer Says</h4>
+            <h4>{{ $content->meta['testimonial_title'] ?? 'What Our Customer Says' }}</h4>
             <p>
-                Hear from our satisfied customers about their experience with us.
+                {{ $content->meta['testimonial_subtitle'] ?? 'Hear from our satisfied customers about their experience with us.' }}
             </p>
         </div>
         <div class="container position-relative">
@@ -631,9 +656,9 @@
     <div class="ad-article">
         <div class="ad-article-title-container">
             <img src="{{ asset('mncofee/assets/img/aida-images/service-icon.png') }}" alt="">
-            <h4>Blog & Articles</h4>
+            <h4>{{ $content->meta['blog_title'] ?? 'Blog & Articles' }}</h4>
             <p>
-                Stay updated with our latest news and recipes.
+                {{ $content->meta['blog_subtitle'] ?? 'Stay updated with our latest news and recipes.' }}
             </p>
         </div>
         <div class="container ad-article-container">
@@ -673,7 +698,123 @@ $(document).ready(function() {
             keyboard: true,
             touch: true
         });
+
+        // GSAP Animations for Hero Slider
+        function animateHeroSlide(item) {
+            const title = item.querySelector('h1');
+            const subtitle = item.querySelector('p');
+            const button = item.querySelector('.btn-hero');
+            const content = item.querySelector('.caption-content');
+
+            if (content) {
+                gsap.fromTo(content, 
+                    { opacity: 0, y: 50 },
+                    { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
+                );
+            }
+
+            if (title) {
+                gsap.fromTo(title, 
+                    { opacity: 0, x: -50 },
+                    { opacity: 1, x: 0, duration: 1, delay: 0.3, ease: "power3.out" }
+                );
+            }
+
+            if (subtitle) {
+                gsap.fromTo(subtitle, 
+                    { opacity: 0, x: 50 },
+                    { opacity: 1, x: 0, duration: 1, delay: 0.5, ease: "power3.out" }
+                );
+            }
+
+            if (button) {
+                gsap.fromTo(button, 
+                    { opacity: 0, scale: 0.8 },
+                    { opacity: 1, scale: 1, duration: 0.8, delay: 0.8, ease: "back.out(1.7)" }
+                );
+            }
+        }
+
+        // Animate first slide on load
+        const firstSlide = heroCarousel.querySelector('.carousel-item.active');
+        if (firstSlide) animateHeroSlide(firstSlide);
+
+        // Animate on slide change
+        heroCarousel.addEventListener('slid.bs.carousel', function (e) {
+            animateHeroSlide(e.relatedTarget);
+        });
+
+        // Keyboard Navigation (Arrow Keys)
+        document.addEventListener('keydown', function(e) {
+            // Only trigger if carousel is in viewport
+            const rect = heroCarousel.getBoundingClientRect();
+            const isInViewport = rect.top >= -rect.height && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) + rect.height;
+            
+            if (isInViewport) {
+                if (e.key === 'ArrowLeft') {
+                    carousel.prev();
+                } else if (e.key === 'ArrowRight') {
+                    carousel.next();
+                }
+            }
+        });
+
+        // Mouse Wheel / Scroll Navigation
+        let isThrottled = false;
+        heroCarousel.addEventListener('wheel', function(e) {
+            const rect = heroCarousel.getBoundingClientRect();
+            // Only capture scroll if it's mostly in view
+            if (rect.top >= -100 && rect.bottom <= window.innerHeight + 100) {
+                if (isThrottled) return;
+                
+                if (e.deltaY > 0) {
+                    carousel.next();
+                    e.preventDefault();
+                } else if (e.deltaY < 0) {
+                    carousel.prev();
+                    e.preventDefault();
+                }
+                
+                isThrottled = true;
+                setTimeout(() => { isThrottled = false; }, 1000); // Throttling for 1 second
+            }
+        }, { passive: false });
     }
+
+    // Counter Animation
+    const counters = document.querySelectorAll('.counter-value');
+    const speed = 200;
+
+    const animateCounters = () => {
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const inc = target / speed;
+
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + inc);
+                    setTimeout(updateCount, 1);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            updateCount();
+        });
+    };
+
+    // Trigger animation when section is in view
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounters();
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    const counterSection = document.querySelector('.counter-value')?.closest('section');
+    if (counterSection) observer.observe(counterSection);
 
     // Explicitly initialize Bootstrap Carousels for other sections
     var myCarousel = document.querySelector('#carouselExample');

@@ -81,18 +81,26 @@
                 <div class="col-lg-3 col-md-4 col-sm-6 col-12 ad-footer-list">
                     <h5>Opening Hours</h5>
                     <ul>
-                        <li>
-                            Mon -
-                            <span class="ad-footer-list-opening-timer">from 8am to 9pm</span>
-                        </li>
-                        <li>
-                            Saturday -
-                            <span class="ad-footer-list-opening-timer">from 9am to 4pm</span>
-                        </li>
-                        <li>
-                            Sunday -
-                            <span class="ad-footer-list-opening-timer">from 8am to 9pm</span>
-                        </li>
+                        @if($ws->opening_hours)
+                            @foreach(explode("\n", $ws->opening_hours) as $line)
+                                @if(trim($line))
+                                    <li>{!! $line !!}</li>
+                                @endif
+                            @endforeach
+                        @else
+                            <li>
+                                Mon -
+                                <span class="ad-footer-list-opening-timer">from 8am to 9pm</span>
+                            </li>
+                            <li>
+                                Saturday -
+                                <span class="ad-footer-list-opening-timer">from 9am to 4pm</span>
+                            </li>
+                            <li>
+                                Sunday -
+                                <span class="ad-footer-list-opening-timer">from 8am to 9pm</span>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>
